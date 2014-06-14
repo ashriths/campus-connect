@@ -16,17 +16,11 @@ class Design{
     <link href="'.$rp.'/grid.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link href="'.$rp.'css/bootstrap.css" rel="stylesheet">
-   
-    <style id="holderjs-style" type="text/css"></style>
-    <![if !IE]>
     <link href="'.$rp.'css/pace.css" rel="stylesheet">
-      <script type="text/javascript" src="'.$rp.'js/pace.js" ></script>
-    <![endif]>
-      
+    <style id="holderjs-style" type="text/css"></style>
+    <script type="text/javascript" src="'.$rp.'js/pace.js" ></script>
+    <!-- Optional theme -->
    
-    
-     <!-- Just for debugging purposes. Don\'t actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn\'t work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -34,7 +28,6 @@ class Design{
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="'.$rp.'js/modernizr-latest.js" ></script>
     <!-- sticky footer -->' ;
 
 	}
@@ -50,8 +43,8 @@ class Design{
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-         <a class="link" href="'.$rp.'student"><img style="wigth:40pt; height:40pt; float:left"; atl="bmslogo" src="'.$rp.'/img/bms-logo.png"></a>
-          <a class="link navbar-brand" href="'.$rp.'student">'.$usn.'</a>
+         <a href="'.$rp.'student"><img style="wigth:40pt; height:40pt; float:left"; atl="bmslogo" src="'.$rp.'/img/bms-logo.png"></a>
+          <a class="navbar-brand" href="'.$rp.'student">'.$usn.'</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
