@@ -83,13 +83,12 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                     
    <?php
                 
-<<<<<<< HEAD
                 //write test data here
-            $att = $user -> getSubjectsTaught(2);
+           // $att = $user -> getSubjectsTaught(2);
             // print_r($att);
 
-          	$result = $user -> getStudentMarks($att[1]);
-          	print_r($result);
+          	//$result = $user -> getStudentMarks($att[1]);
+          //	print_r($result);
                 /*
 
                 $grade = $user->getGradebySemAndSub(6,17);
@@ -116,9 +115,9 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                 //code to print associative array
           */  
 
-=======
+
                // get all Notification and print here
->>>>>>> FETCH_HEAD
+
 
           ?> 
       </div>
