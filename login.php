@@ -7,15 +7,15 @@
 	if(isset($_POST['email'])&&isset($_POST['password'])){
 		$result = $user->authenticate($_POST['email'],$_POST['password']);
 		if($result['result']==1){
-			if($result['type']=='student'){
+			if($result['type']=='s'){
 				//login student
 				$session->createSession($result['userId'],'student');
 				
 			}
-			else{
+			else if($result['type']=='t'){
 				//login teacher
-				$session->createSession($result['teacherId'],'teacher');
-				
+				$session->createSession($result['userId'],'teacher');
+				//echo 'Session Create for Teacher';
 			}
       Redirect::redirectTo($rp.'home.php');
 		}

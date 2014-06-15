@@ -32,7 +32,7 @@ class User{
 		$email = $db->real_escape_string($email);
 		$password = $db->real_escape_string($password);
 		$hashedPassword = sha1($password);
-		$sql = "SELECT * FROM student WHERE email = '$email'";
+		$sql = "SELECT * FROM user WHERE email = '$email'";
 		//echo $sql;
 		$result = $db->query($sql);
 		if(!$result){	
@@ -45,7 +45,7 @@ class User{
 			if($user['password']==$hashedPassword){
 				//user exists
 				//echo 'User Entered Correct Password';
-				return array('result'=>1,'type'=>'student','userId'=>$user['userId']); 
+				return array('result'=>1,'type'=>$user['type'],'userId'=>$user['userId']); 
 				
 			}
 			else{
@@ -53,25 +53,7 @@ class User{
 				return array('result'=>0,'message'=>'Hey '.$user['name'].' you didn\'t enter your coreect password.'); 
 			}
 		}
-		// User is not there in student database Search in Teachers
-		$sql = "SELECT * FROM teacher WHERE email = '$email'";
-		$result = $db->query($sql);
-		if(!$result){	
-			die('Error:'.$db->error);
-		}
-		if($result->num_rows==1){
-			$user=$result->fetch_assoc();
-			//print_r($user);
-			if($user['password']==$hashedPassword){
-				//user exists
-				//echo 'User Entered Correct Password';
-				return array('result'=>1,'type'=>'teacher','teacherId'=>$user['teacherId']); 	
-			}
-			else{
-				//echo 'User Entered Wrong password';
-				return array('result'=>0,'message'=>'Hey '.$user['name'].' you didn\'t enter your coreect password.'); 
-			}
-		}
+	
 		//echo 'User Not Found anywhere';
 		return array('result'=>0,'message'=>'We don\'t recognize your email. Please chack again.'); 
 		
@@ -137,7 +119,9 @@ class User{
 		$result = $result->fetch_assoc();
 		return $result;
 
-	}/*
+	}
+
+	/*
 	public function getTableDetailsby2Id($table$idname1,$id1,$idname2,$id2)
 	{
 		$db = User::setupDatabase();
@@ -180,53 +164,58 @@ class User{
 	{
 		$db = User::setupDatabase();
 		$student = $this->getTableDetailsbyId('student','userId',$userId);
-
+		
+		// get his class and hence his semester
 		$classId = $student['classId'];
 		$class = $this->getTableDetailsbyId('class','classId',$classId);
 		$sem = $class['sem'];
+		
+		// get all subjects That are there for the semester
 		$subjects = User::getSubjectsBySem($sem);
 		$rows = array();
+		//foreach subject get his attendance if he has attendaed any classes
 		foreach ($subjects as $key => $value) {
 			$subjectId = $value['subjectId'];
 			$result = $this -> doQuery("SELECT * FROM attendance where userId = $userId and subjectId=$subjectId");
 			$row['subjectName']=$value['subjectName'];
 			$row['subjectId']=$subjectId;
 			$row['classesAttended'] = $result['classesAttended'];
-
+			
+			// Get total number of classes
 			$result = $this->doQuery("SELECT * FROM teachersubject where classId = $classId and subjectId=$subjectId");
 			$row['totalClasses'] = $result['totalClasses'];
 			$rows[] = $row;
 		}
 		return $rows;
-		//obtain classId frm student
-		$result1 = $this->getTableDetailsbyId('student','userId',$userId);
-		#$arr['classId'] = $result1['classId'];
+		// //obtain classId frm student
+		// $result1 = $this->getTableDetailsbyId('student','userId',$userId);
+		// #$arr['classId'] = $result1['classId'];
 
 		
-		//query using classId to get all subjectId s
-		$result2 = $this -> getTableDetailsbyNonId('teacherSubject','classId',$result1['classId']);
-		//store in a named array
+		// //query using classId to get all subjectId s
+		// $result2 = $this -> getTableDetailsbyNonId('teacherSubject','classId',$result1['classId']);
+		// //store in a named array
 
-		print_r($result2);
-		$i=0;
-		foreach ($result2 as $key => $value) 
-		{
+		// print_r($result2);
+		// $i=0;
+		// foreach ($result2 as $key => $value) 
+		// {
 				
-						# code...
-					$subjectId = $value['subjectId'];
-					$sql = "SELECT * FROM attendance WHERE subjectId = $subjectId and userId = $userId";
-					$result = $db->query($sql);
+		// 				# code...
+		// 			$subjectId = $value['subjectId'];
+		// 			$sql = "SELECT * FROM attendance WHERE subjectId = $subjectId and userId = $userId";
+		// 			$result = $db->query($sql);
 					
 					
-					$result = $result->fetch_assoc();
-					$result3 = $this->getTableDetailsbyId('subject','subjectId',$result['subjectId']);
+		// 			$result = $result->fetch_assoc();
+		// 			$result3 = $this->getTableDetailsbyId('subject','subjectId',$result['subjectId']);
 
-					$arr[$i++] = array('totalClasses' => $result['totalClasses'],'classesAttended' => $result['classesAttended'], 'name' => $result3['subjectName']);
+		// 			$arr[$i++] = array('totalClasses' => $result['totalClasses'],'classesAttended' => $result['classesAttended'], 'name' => $result3['subjectName']);
 
 				
 			
-		}
-		return $arr;
+		// }
+		// return $arr;
 	}  
 
 
