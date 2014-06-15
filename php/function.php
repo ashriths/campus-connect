@@ -187,6 +187,7 @@ class User{
 			$rows[] = $row;
 		}
 		return $rows;
+		// obsolute untill needed
 		// //obtain classId frm student
 		// $result1 = $this->getTableDetailsbyId('student','userId',$userId);
 		// #$arr['classId'] = $result1['classId'];
