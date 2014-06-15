@@ -12,11 +12,8 @@ if(!$_SESSION['type']=='student'){
     Redirect::redirectTo($rp.'home.php');
 }
 $u = $user->getTableDetailsbyId('student','userId',$_SESSION['id']);
-//print_r($u);
-$k = $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
-$u=array_merge($u,$k);
-//print_r($u);
-//exit;
+//rint_r($u);
+
 //echo $u['classId'];
 //echo $u['usn'];
 
@@ -83,12 +80,11 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                     
    <?php
                 
-<<<<<<< HEAD
                 //write test data here
             $att = $user -> getSubjectsTaught(2);
             // print_r($att);
 
-          	$result = $user -> getStudentMarks($att[1]);
+          	$result = $user -> getStudentNames($att[1]);
           	print_r($result);
                 /*
 
@@ -116,9 +112,6 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                 //code to print associative array
           */  
 
-=======
-               // get all Notification and print here
->>>>>>> FETCH_HEAD
 
           ?> 
       </div>
