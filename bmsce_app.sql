@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2014 at 07:03 PM
+-- Generation Time: Jun 15, 2014 at 08:03 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -145,6 +145,38 @@ CREATE TABLE IF NOT EXISTS `marks` (
   KEY `score` (`score`),
   KEY `examTypeId` (`examtypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `message`
+--
+
+CREATE TABLE IF NOT EXISTS `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fromId` int(11) NOT NULL,
+  `toId` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `seen` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `content` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fromId` (`fromId`,`toId`),
+  KEY `toId` (`toId`),
+  KEY `fromId_2` (`fromId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` enum('user','class','college','dept') NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -315,6 +347,13 @@ ALTER TABLE `marks`
   ADD CONSTRAINT `marks_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `student` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `marks_ibfk_3` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `marks_ibfk_4` FOREIGN KEY (`examtypeId`) REFERENCES `examtype` (`examtypeId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `message`
+--
+ALTER TABLE `message`
+  ADD CONSTRAINT `message_ibfk_3` FOREIGN KEY (`fromId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `message_ibfk_5` FOREIGN KEY (`toId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `oldgrades`
