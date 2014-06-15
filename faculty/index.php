@@ -12,7 +12,7 @@ if(!($_SESSION['type']=='teacher')){
     Redirect::redirectTo($rp.'home.php');
 }
 $u = $user->getTableDetailsbyId('teacher','userId',$_SESSION['id']);
-$u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
+//rint_r($u);
 
 //echo $u['classId'];
 //echo $u['usn'];
@@ -35,7 +35,7 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getFacultyNavbar($rp,0);
+      //$design->getStudentNavbar($rp,0,$u['usn']);
     ?>
     
     <hr />
@@ -43,7 +43,36 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
       
       <div class="container" >
         <div class="row">
-           
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="panel panel-primary">
+                      <div class="panel-heading"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Personal Details:</div>
+                      <div class="panel-body">
+                        <div class="row">
+                             <div class="col-xs-12 col-md-4">
+                                <img src="../img/profile.jpg" class="img-thumbnail"/>
+                             </div>
+                              <div class="col-xs-12 col-md-8">
+                                   
+                                      <table class="table table-hover">
+                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td>></tr>
+                                        <tr><th>USN</th><td><?php echo strtoupper($u['usn']); ?></td>></tr>
+                                        <tr><th>Branch</th><td>
+                                        <?php //echo $class['deptId'];
+                                            $dept = $user->getTableDetailsbyId('dept','deptId',$class['deptId']);
+                                            echo strtoupper($dept['name']);?>
+                                        </td>></tr>
+                                        <tr><th>Semester</th><td><?php echo $class['sem']; ?></td>></tr>
+                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td>></tr>
+                                      </table>
+                                    
+                             </div>
+                        </div>
+                       
+                      
+                      </div>
+                </div>
+             
+            </div>
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="panel panel-default">
                       <div class="panel-heading">Notifications  <span class="badge pull-right">42</span></div>
@@ -83,36 +112,6 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
       </div>
                       </div>
                 </div>
-
-                 <div class="col-xs-12 col-sm-6 col-md-6">
-              <div class="panel panel-primary">
-                      <div class="panel-heading"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Personal Details:</div>
-                      <div class="panel-body">
-                        <div class="row">
-                             <div class="col-xs-12 col-md-4">
-                                <img src="../img/profile.jpg" class="img-thumbnail"/>
-                             </div>
-                              <div class="col-xs-12 col-md-8">
-                                   
-                                      <table class="table table-hover">
-                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td>></tr>
-                                       
-                                        <tr><th>Department</th><td>
-                                        <?php //echo $class['deptId'];
-                                            $dept = $user->getTableDetailsbyId('dept','deptId',$u['deptId']);
-                                            echo strtoupper($dept['name']);?>
-                                        </td>></tr>
-                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td>></tr>
-                                      </table>
-                                    
-                             </div>
-                        </div>
-                       
-                      
-                      </div>
-                </div>
-             
-            </div>
             </div>
         </div>
         
