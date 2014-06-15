@@ -84,7 +84,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
             $att = $user -> getSubjectsTaught(2);
             // print_r($att);
 
-          	$result = $user -> getStudentNames($att[1]);
+          	$result = $user -> getStudentMarks($att[1]);
           	print_r($result);
                 /*
 

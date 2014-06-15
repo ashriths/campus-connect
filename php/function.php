@@ -363,7 +363,7 @@ class User{
 			
 		}
 		// Array ( [teacherid] => 2 [subjectId] => 17 [classId] => 1 [totalClasses] => 20 [subjectName] => Computer Networks [subjectCode] => 10CI5GCCON [className] => 6 A ) 
-		
+		//pass one array from $allsubjects as $assArray
 		return $allsubjects;
 	} 
 
@@ -392,6 +392,44 @@ class User{
 		return $students;
 
 	}
+
+	public function getStudentMarks($assArray)
+	{
+
+		
+		
+		$db = User::setupDatabase();
+		$sql = "select userId, usn, name from student where classId =".$assArray['classId']." order by(usn)";
+		$students = $this -> doQuery($sql);
+		
+		foreach ($students as $key => $value) {
+			$sql = "select * from marks where subjectId =".$assArray['subjectId']." and userId =".$value['userId']." ";
+			$marks = $this -> doQuery($sql);  
+			
+			if($marks)
+			{
+				//if user data is found...obviously user will be there...while testing it wasnt
+				$value['marksarray'] = $marks;
+				// print_r($marks);
+				// echo "<br/>";
+				$students[$key]=$value;
+			}
+			else
+			{
+				//when user data dosnt exists
+				// echo "<br/>not found userId=>".$value['userId'];
+
+			}
+
+		}
+
+		/*$students is to be accessed using a foreach ..inside it $student['marksarray'] is to be done using foreach loop
+		
+		return $students;
+	}
+
+
+	
 	
 
 }
