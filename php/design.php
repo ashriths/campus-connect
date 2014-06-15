@@ -68,7 +68,7 @@ class Design{
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
               <ul class="dropdown-menu">
-                <li ><a class="link" href="'.$rp.'/logout.php">&nbsp;Logout</a></li>
+                <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
                 <li class="divider"></li>
                 <li><a class="link" href="#">Edit Profile</a></li>
                 <li><a class="link" href="#">Settings</a></li>

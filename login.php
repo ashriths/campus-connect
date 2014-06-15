@@ -10,13 +10,14 @@
 			if($result['type']=='student'){
 				//login student
 				$session->createSession($result['userId'],'student');
-				Redirect::redirectTo($rp.'student/');
+				
 			}
 			else{
 				//login teacher
 				$session->createSession($result['teacherId'],'teacher');
-				Redirect::redirectTo($rp.'teacher/');
+				
 			}
+      Redirect::redirectTo($rp.'home.php');
 		}
 	}
 ?><!DOCTYPE html>

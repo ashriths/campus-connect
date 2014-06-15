@@ -65,7 +65,7 @@ class User{
 			if($user['password']==$hashedPassword){
 				//user exists
 				//echo 'User Entered Correct Password';
-				return array('result'=>1,'type'=>'teacher','teacherId'=>$user['userId']); 	
+				return array('result'=>1,'type'=>'teacher','teacherId'=>$user['teacherId']); 	
 			}
 			else{
 				//echo 'User Entered Wrong password';
