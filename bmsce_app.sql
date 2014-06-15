@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2014 at 04:39 PM
+-- Generation Time: Jun 15, 2014 at 07:03 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -33,17 +33,6 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   PRIMARY KEY (`subjectId`,`userId`),
   KEY `userId` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `attendance`
---
-
-INSERT INTO `attendance` (`subjectId`, `userId`, `classesAttended`) VALUES
-(13, 3, 30),
-(13, 4, 23),
-(15, 4, 19),
-(16, 3, 30),
-(17, 3, 40);
 
 -- --------------------------------------------------------
 
@@ -78,32 +67,6 @@ INSERT INTO `class` (`classId`, `sem`, `deptId`, `section`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `classnotification`
---
-
-CREATE TABLE IF NOT EXISTS `classnotification` (
-  `classId` int(5) NOT NULL,
-  `calssNoId` int(5) NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(15) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  PRIMARY KEY (`calssNoId`,`classId`),
-  KEY `userId` (`calssNoId`,`type`),
-  KEY `type` (`type`),
-  KEY `classId` (`classId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `classnotification`
---
-
-INSERT INTO `classnotification` (`classId`, `calssNoId`, `timestamp`, `type`, `message`) VALUES
-(1, 1, '2014-05-19 15:52:14', 'none', 'todays class is cancelled '),
-(1, 2, '2014-05-19 15:53:02', 'fromTeacher', 'extra class CN friday 12/6/14 1pm rm.5001');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `collegeevents`
 --
 
@@ -114,31 +77,6 @@ CREATE TABLE IF NOT EXISTS `collegeevents` (
   `venue` varchar(50) NOT NULL,
   `timestampValue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `collegenotification`
---
-
-CREATE TABLE IF NOT EXISTS `collegenotification` (
-  `collegeNoId` int(5) NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `type` varchar(15) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  PRIMARY KEY (`collegeNoId`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `collegenotification`
---
-
-INSERT INTO `collegenotification` (`collegeNoId`, `timestamp`, `type`, `message`) VALUES
-(1, '2014-05-19 16:29:54', 'fromAdmin', 'hellooo'),
-(2, '2014-05-19 16:29:54', 'fromClassmates', 'hi classmate sennt u notification'),
-(3, '2014-05-19 16:30:25', 'fromProctor', 'this is from proctor too college'),
-(4, '2014-05-19 16:30:25', 'fromTeacher', 'hi i want to resign...');
 
 -- --------------------------------------------------------
 
@@ -162,47 +100,6 @@ INSERT INTO `dept` (`deptId`, `name`) VALUES
 (3, ''),
 (9, ''),
 (10, '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deptevents`
---
-
-CREATE TABLE IF NOT EXISTS `deptevents` (
-  `eventName` varchar(50) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  `date` date NOT NULL,
-  `venue` varchar(50) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deptnotification`
---
-
-CREATE TABLE IF NOT EXISTS `deptnotification` (
-  `deptId` int(5) NOT NULL,
-  `deptNoId` int(5) NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(15) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  PRIMARY KEY (`deptNoId`,`deptId`),
-  KEY `type` (`type`),
-  KEY `type_2` (`type`),
-  KEY `deptId` (`deptId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `deptnotification`
---
-
-INSERT INTO `deptnotification` (`deptId`, `deptNoId`, `timestamp`, `type`, `message`) VALUES
-(1, 1, '2014-05-19 15:55:13', 'fromProctor', 'Student !bm11cs000 of your dept id a thief'),
-(1, 2, '2014-05-19 15:55:13', 'fromAdmin', '1bm11cs000 registration complete on portal'),
-(1, 3, '2014-05-19 16:36:52', 'none', 'another notification\r\n');
 
 -- --------------------------------------------------------
 
@@ -249,38 +146,6 @@ CREATE TABLE IF NOT EXISTS `marks` (
   KEY `examTypeId` (`examtypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `marks`
---
-
-INSERT INTO `marks` (`userId`, `subjectId`, `score`, `examtypeId`) VALUES
-(4, 15, 5, 1),
-(4, 15, 5, 2),
-(4, 17, 10, 3),
-(4, 13, 13, 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notificationtype`
---
-
-CREATE TABLE IF NOT EXISTS `notificationtype` (
-  `type` varchar(15) NOT NULL,
-  PRIMARY KEY (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `notificationtype`
---
-
-INSERT INTO `notificationtype` (`type`) VALUES
-('fromAdmin'),
-('fromClassmates'),
-('fromProctor'),
-('fromTeacher'),
-('none');
-
 -- --------------------------------------------------------
 
 --
@@ -297,19 +162,6 @@ CREATE TABLE IF NOT EXISTS `oldgrades` (
   KEY `subjectId` (`subjectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `oldgrades`
---
-
-INSERT INTO `oldgrades` (`userId`, `subjectId`, `sem`, `grade`) VALUES
-(3, 13, 6, 'A'),
-(3, 14, 5, 'B'),
-(3, 15, 6, 'A'),
-(3, 16, 6, 'A'),
-(3, 17, 6, 'A'),
-(4, 16, 5, 'A'),
-(5, 16, 6, 'B');
-
 -- --------------------------------------------------------
 
 --
@@ -317,11 +169,9 @@ INSERT INTO `oldgrades` (`userId`, `subjectId`, `sem`, `grade`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `student` (
-  `userId` int(5) NOT NULL AUTO_INCREMENT,
+  `userId` int(5) NOT NULL,
   `usn` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `email` varchar(50) NOT NULL,
   `classId` int(5) NOT NULL,
   `proctorId` int(5) NOT NULL,
   `cgpa` varchar(5) NOT NULL,
@@ -330,19 +180,14 @@ CREATE TABLE IF NOT EXISTS `student` (
   KEY `name` (`name`),
   KEY `proctorId` (`proctorId`),
   KEY `classId` (`classId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`userId`, `usn`, `name`, `password`, `email`, `classId`, `proctorId`, `cgpa`) VALUES
-(3, '1BM11CS018', 'ashish rawat', '428b6da53085b8fd7b37e9fb259c0c609bd09984', 'ashish@yahoo.com', 1, 33, ''),
-(4, '1BM11CS019', 'ashrith s', '8cb2237d0679ca88db6464eac60da96345513964', 'ashrith@yahoo.com', 1, 22, '9.20'),
-(5, '1BM11CS012', 'alta soni', '475b5952739c62bfcd2ba9592a04848e68ad2f87', 'alta@yahoo.co.in', 1, 23, ''),
-(6, '1BM11CS016', 'anuj raghuram', 'fa446f551bf5f1cf7a1f58d532fcbf89a120a3d1', 'anuj@yahoo.com', 1, 12, ''),
-(7, '1BM11CS001', 'kavya reddy', '47de38fbdece0d484472919c37c107cfadb2ad00', 'kavya@yahoo.com', 1, 67, ''),
-(8, '1BM11CS002', 'nagambika', 'eea5dca9d5171e8a512df767a5eae70faf5f6e24', 'nag@yahoo.com', 1, 12, '');
+INSERT INTO `student` (`userId`, `usn`, `name`, `classId`, `proctorId`, `cgpa`) VALUES
+(1, '1BMXXXXXXX', 'Demo Student', 1, 2, '9.20');
 
 -- --------------------------------------------------------
 
@@ -356,13 +201,6 @@ CREATE TABLE IF NOT EXISTS `studentsem` (
   `sgpa` varchar(5) NOT NULL,
   KEY `userId` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `studentsem`
---
-
-INSERT INTO `studentsem` (`userId`, `sem`, `sgpa`) VALUES
-(4, 4, '9.20');
 
 -- --------------------------------------------------------
 
@@ -399,22 +237,19 @@ INSERT INTO `subject` (`subjectId`, `subjectName`, `subjectCode`, `sem`, `credit
 --
 
 CREATE TABLE IF NOT EXISTS `teacher` (
-  `teacherId` int(5) NOT NULL AUTO_INCREMENT,
+  `userId` int(5) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  PRIMARY KEY (`teacherId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `deptId` int(11) NOT NULL,
+  PRIMARY KEY (`userId`),
+  KEY `deptId` (`deptId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `teacher`
 --
 
-INSERT INTO `teacher` (`teacherId`, `name`, `password`, `email`) VALUES
-(2, 'selva kumar', '540e358b3aa75a12b2777237550599a1529af60d', 'selva@bmsce.in'),
-(3, 'ljj', 'df7e3bf86f4495807cf5a6e368526de34a77eb41', 'ljj@bmsce.in'),
-(4, 'seema afreen', 'ce960f25b09c7330590a6266dd1f655cca4cb359', 'seema@bmsce.in'),
-(5, 'Syed Akram', '1212', 'syedakram@yahoo.com');
+INSERT INTO `teacher` (`userId`, `name`, `deptId`) VALUES
+(2, 'Demo Faculty', 1);
 
 -- --------------------------------------------------------
 
@@ -428,49 +263,33 @@ CREATE TABLE IF NOT EXISTS `teachersubject` (
   `classId` int(5) NOT NULL,
   `totalClasses` int(2) NOT NULL,
   PRIMARY KEY (`teacherid`,`subjectId`,`classId`),
-  KEY `teacherid` (`teacherid`,`subjectId`,`classId`),
   KEY `subjectId` (`subjectId`),
   KEY `classId` (`classId`),
-  KEY `classId_2` (`classId`)
+  KEY `classId_2` (`classId`),
+  KEY `teacherid` (`teacherid`,`subjectId`,`classId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `teachersubject`
---
-
-INSERT INTO `teachersubject` (`teacherid`, `subjectId`, `classId`, `totalClasses`) VALUES
-(2, 17, 1, 20),
-(3, 13, 1, 25),
-(4, 16, 1, 25),
-(5, 15, 1, 25);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usernotification`
+-- Table structure for table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `usernotification` (
-  `userId` int(5) NOT NULL,
-  `userNoId` int(5) NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(15) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  PRIMARY KEY (`userId`,`userNoId`),
-  KEY `userId` (`userNoId`,`type`),
-  KEY `type` (`type`),
-  KEY `type_2` (`type`),
-  KEY `userId_2` (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+CREATE TABLE IF NOT EXISTS `user` (
+  `userId` int(5) NOT NULL AUTO_INCREMENT,
+  `type` varchar(10) NOT NULL DEFAULT 's',
+  `email` varchar(200) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `usernotification`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `usernotification` (`userId`, `userNoId`, `timestamp`, `type`, `message`) VALUES
-(3, 1, '2014-05-19 15:09:59', 'fromAdmin', 'dis notification is from admin'),
-(3, 2, '2014-05-19 15:11:50', 'fromAdmin', 'this msg is from admin in user Notification talble'),
-(3, 3, '2014-05-19 15:12:09', 'fromAdmin', 'this msg is from admin in user Notification talble');
+INSERT INTO `user` (`userId`, `type`, `email`, `password`) VALUES
+(1, 's', 'student@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91'),
+(2, 't', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91');
 
 --
 -- Constraints for dumped tables
@@ -488,26 +307,6 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `class`
   ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `classnotification`
---
-ALTER TABLE `classnotification`
-  ADD CONSTRAINT `classnotification_ibfk_2` FOREIGN KEY (`type`) REFERENCES `notificationtype` (`type`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `classnotification_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `collegenotification`
---
-ALTER TABLE `collegenotification`
-  ADD CONSTRAINT `collegenotification_ibfk_1` FOREIGN KEY (`type`) REFERENCES `notificationtype` (`type`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `deptnotification`
---
-ALTER TABLE `deptnotification`
-  ADD CONSTRAINT `deptnotification_ibfk_1` FOREIGN KEY (`type`) REFERENCES `notificationtype` (`type`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `deptnotification_ibfk_2` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `marks`
@@ -528,7 +327,9 @@ ALTER TABLE `oldgrades`
 -- Constraints for table `student`
 --
 ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `student_ibfk_4` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`),
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `student_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `studentsem`
@@ -543,19 +344,19 @@ ALTER TABLE `subject`
   ADD CONSTRAINT `subject_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `teacher`
+--
+ALTER TABLE `teacher`
+  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`);
+
+--
 -- Constraints for table `teachersubject`
 --
 ALTER TABLE `teachersubject`
-  ADD CONSTRAINT `teachersubject_ibfk_1` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`teacherId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teachersubject_ibfk_4` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`userId`),
   ADD CONSTRAINT `teachersubject_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teachersubject_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `usernotification`
---
-ALTER TABLE `usernotification`
-  ADD CONSTRAINT `usernotification_ibfk_2` FOREIGN KEY (`type`) REFERENCES `notificationtype` (`type`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `usernotification_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `student` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

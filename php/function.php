@@ -218,7 +218,18 @@ class User{
 		// return $arr;
 	}  
 
-
+	public function sendMessage($to, $msg){
+		$db = User::setupDatabase();
+		$msg = $db->real_escape_string($msg);
+		$from = $_SESSION['id'];
+		$sql = "INSERT INTO message (fromId, toId ,content) VALUES ($from, $to,'$msg')";
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
+		$id = $db->insert_id;
+		return $id;
+	}
 	public function getGradebySem($sem,$uid)//query oldGrades table return * from oldgrades + subject name and code +[credits]
 	{
 		$db = User::setupDatabase();
