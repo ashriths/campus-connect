@@ -80,9 +80,14 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                     
    <?php
                 
-                
-          //  $att = $user->getMyAttendance($_SESSION['id']);
+                //write test data here
+            $att = $user -> getSubjectsTaught(2);
+            // print_r($att);
+
+          	$result = $user -> getStudentNames($att[1]);
+          	print_r($result);
                 /*
+
                 $grade = $user->getGradebySemAndSub(6,17);
                 
                 foreach ($grade as $key => $value) {
