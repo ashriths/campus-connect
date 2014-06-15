@@ -12,8 +12,11 @@ if(!$_SESSION['type']=='student'){
     Redirect::redirectTo($rp.'home.php');
 }
 $u = $user->getTableDetailsbyId('student','userId',$_SESSION['id']);
-//rint_r($u);
-
+//print_r($u);
+$k = $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
+$u=array_merge($u,$k);
+//print_r($u);
+//exit;
 //echo $u['classId'];
 //echo $u['usn'];
 
@@ -80,38 +83,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                     
    <?php
                 
-                //write test data here
-            $att = $user -> getSubjectsTaught(2);
-            // print_r($att);
-
-          	$result = $user -> getStudentNames($att[1]);
-          	print_r($result);
-                /*
-
-                $grade = $user->getGradebySemAndSub(6,17);
-                
-                foreach ($grade as $key => $value) {
-                  echo "<br/>key: $key =>      ";
-                  foreach ($value as $key2 => $value2) { //for 2D array in case of multiple rows
-                    echo " $key2=> $value2";
-                    # code...
-                  }
-                }
-              
-          */  
-          /*
-                $cls= $user->getTableDetailsbyNonId('student','classId',$u['classId']);
-
-                foreach ($cls as $key => $value) {
-                  echo "<br/><br/>key: $key =>";
-                  foreach ($value as $key2 => $value2) { //for 2D array in case of multiple rows
-                    echo "<br/> $key2=> $value2";
-                    # code...
-                  }
-                }
-                //code to print associative array
-          */  
-
+               // get all Notification and print here
 
           ?> 
       </div>

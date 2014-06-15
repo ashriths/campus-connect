@@ -86,6 +86,60 @@ class Design{
 		
 	}
 
+  public function getFacultyNavbar($rp,$active){
+    echo ' <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         <a href="'.$rp.'faculty"><img style="wigth:40pt; height:40pt; float:left"; atl="bmslogo" src="'.$rp.'/img/bms-logo.png"></a>
+          <a class="navbar-brand" href="'.$rp.'faculty">BMSCE</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+             <li '; if($active==0) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty">Home</a></li>
+             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="marks.php">Marks</a></li>
+             <li '; if($active==2) echo 'class="active"'; echo '><a class="link" href="attendance.php">Attendance</a></li>
+             <li '; if($active==3) echo 'class="active"'; echo '><a class="link" href="proctor.php">Proctor</a></li>
+            <li class="'; if($active==4) echo 'active';  echo ' dropdown" >
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a class="link" href="#">Notes</a></li>
+                <li><a class="link" href="#">Question Papers</a></li>
+                <li><a class="link" href="#">Syllabus Copy</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
+              <ul class="dropdown-menu">
+                <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
+                <li class="divider"></li>
+                <li><a class="link" href="#">Edit Profile</a></li>
+                <li><a class="link" href="#">Settings</a></li>
+                <li><a class="link" href="#">Privacy</a></li>
+                <li class="divider"></li>
+                <li><a class="link" href="#">Help</a></li>
+                <li><a class="link" href="#">Report a Problem</a></li>
+              </ul>
+            </li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>';
+    
+  }
+
   function getJSIncludes($rp){
     echo '
     <div class="loading" >
