@@ -368,13 +368,13 @@ class User{
 		return $allsubjects;
 	} 
 
-	public function getStudentNames($assArray)
+	public function getStudentAttendance($assArray)
 	{
 		// part 2
 		// query student with classid and obtain list of all studnets ,,,order by usn
 		//query attemdamce with userid
-		print_r($assArray);
-		echo "<br/>";
+		// print_r($assArray);
+		// echo "<br/>";
 		$db = User::setupDatabase();
 		$sql = "select userId, usn, name from student where classId =".$assArray['classId']." order by(usn)";
 		$students = $this -> doQuery($sql);
@@ -423,14 +423,83 @@ class User{
 			}
 
 		}
-
+		//$value['marksarray'] is a 2d array ...traverse it using double foreach
 			
 		return $students;
 	}
 
+	/* acquire subjectid and classid
+		update_getNames() will just get u the students
 
+		execute a call to updateAttendance with subjectid and userid to increment attendance
+
+		*/
+	public function update_getNames($assArray)
+	{
+		$db = User::setupDatabase();
+		$sql = "select userId, usn, name from student where classId =".$assArray['classId']." order by(usn)";
+		$students = $this -> doQuery($sql);
+
+		return $students;
+	}
 	
-	
+
+	//call updateAttendance each time for every studnt in class
+	public function updateAttendance($subjectId,$userId,$bool)
+	{
+		$db = User::setupDatabase();
+		if($bool){
+			
+			$sql = "update attendance set classesAttended = (classesAttended + 1) where subjectId=".$subjectId." and userId=".$userId." ";
+			$result = $db -> query($sql);
+		}
+		else{
+			
+			$sql ="insert into absentees (userId , subjectId) values ( ".$userId.' ,'.$subjectId.' ) ';
+			$result = $db -> query($sql) or die("error updating");
+		}
+			//no error codes returned
+	}
+
+	public function updateMarks($userId,$subjectId,$examtypeId,$newmarks){
+
+		$db= User::setupDatabase();
+
+		//obtain max score 
+		$sql = "SELECT * from examtype where examtypeId=".$examtypeId." ";
+		$result = $this -> doQuery($sql);
+		// print_r($result);
+
+		if($newmarks > $result['maxMarks'])
+		{
+			echo " Error...entered score higher than max score";
+		}
+		else
+		{
+			//query marks to check if we hav to insert or update
+			$sql ="select * from marks where userId=".$userId." and subjectId=".$subjectId." and examtypeId=".$examtypeId;
+			$result = $this ->doQuery($sql);
+			if($result)
+			{	//if table exists we do an update
+				// echo "updating";
+				$sql = "update marks set score=".$newmarks." where userId=".$userId." and subjectId=".$subjectId." and examtypeId=".$examtypeId;
+				$success = $db -> query($sql) or die("error ".$db->error);
+				if(!$success)
+				{  echo "error on update/insert";  }
+			}
+			else
+			{
+				//record dosnt exists...insert into marks
+				// echo "inserting";
+				$sql = "insert into marks values(".$userId." , ".$subjectId." , ".$newmarks." , ".$examtypeId." )";
+				$res = $db ->query($sql);
+				if(!$res)
+					{	echo "error or update/insert";  }
+			}
+		}
+	}
+
+
 
 }
 
