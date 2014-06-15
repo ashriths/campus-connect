@@ -95,6 +95,7 @@ class User{
     		}
 		return $rows;
 		} 
+		$result = $result ->fetch_assoc();
 		return $result;
 	}
 	//generic function param(tablename,attribute,value)
@@ -158,11 +159,15 @@ class User{
 		{
 			die('Error'>$db->error);
 		}
+
 		if(mysqli_num_rows($result)>1){
 		$rows = array();
     		while($row = $result->fetch_assoc()) {
        			 $rows[] = $row;
+    			// print_r($row);
+    			// echo "<br/>";
     		}
+
 		return $rows;
 		} 
 		$result = $result ->fetch_assoc();
@@ -266,6 +271,7 @@ class User{
 		return $result['sgpa'];
 	}
 	
+	//requires dept field to disambiguate
 	public function getSubjectsBySem($sem){
 		$result = $this -> doQuery("SELECT * from subject where sem =$sem");
 		return $result;
@@ -332,6 +338,60 @@ class User{
 
 	}
 
+
+
+	//functions for teachers
+	public function getSubjectsTaught($tid)
+	{   
+		// part 1 of function
+		//returns subject name and class section and sem eg webprogramming 6 A +other details
+		//display this and ask to select any one ...den send (classId and subjectId) and query further
+
+
+		$db =User::setupDatabase();
+		$allsubjects = $this -> getTableDetailsbyNonId('teachersubject','teacherid',$tid);
+		
+		foreach ($allsubjects as $key => $value) {
+			
+			$subject = $this -> getTableDetailsbyNonId('subject','subjectId',$value['subjectId']);
+			$value['subjectName'] = $subject['subjectName'];
+			$value['subjectCode'] = $subject['subjectCode'];
+		
+			$class = $this -> getTableDetailsbyNonId('class','classId',$value['classId']);
+			$value['className'] = $class["sem"]." ".$class['section']." ";
+			$allsubjects[$key] = $value;
+			
+		}
+		// Array ( [teacherid] => 2 [subjectId] => 17 [classId] => 1 [totalClasses] => 20 [subjectName] => Computer Networks [subjectCode] => 10CI5GCCON [className] => 6 A ) 
+		
+		return $allsubjects;
+	} 
+
+	public function getStudentNames($assArray)
+	{
+		// part 2
+		// query student with classid and obtain list of all studnets ,,,order by usn
+		//query attemdamce with userid
+		print_r($assArray);
+		echo "<br/>";
+		$db = User::setupDatabase();
+		$sql = "select userId, usn, name from student where classId =".$assArray['classId']." order by(usn)";
+		$students = $this -> doQuery($sql);
+
+		foreach ($students as $key => $value) {
+			$sql = "select * from attendance where userId =".$value['userId']." and subjectId =".$assArray['subjectId'];
+			$attendance = $this -> doQuery($sql);	
+		
+			$value['classesAttended'] = $attendance['classesAttended'];
+			$students[$key] = $value;
+			// print_r($value);
+			// echo "<br/>";
+		}
+		// Array ( [userId] => 5 [usn] => 1BM11CS012 [name] => alta soni [classesAttended] => 20 ) 
+
+		return $students;
+
+	}
 	
 
 }
