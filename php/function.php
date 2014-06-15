@@ -425,7 +425,7 @@ class User{
 		}
 
 		/*$students is to be accessed using a foreach ..inside it $student['marksarray'] is to be done using foreach loop
-		
+		*/
 		return $students;
 	}
 
