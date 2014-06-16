@@ -87,7 +87,8 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
            // $att = $user -> getSubjectsTaught(2);
             // print_r($att);
 
-          	$result = $user -> updateMarks(3,15,5,5);
+          	// $result = $user -> updateMarks(3,15,5,5);
+              $result = $user -> suggestSem();
           	// print_r($result);
                 /*
 
