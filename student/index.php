@@ -8,7 +8,7 @@ require($rp.'php/function.php');
 if(!isset($_SESSION['id'])){
     Redirect::redirectTo($rp.'login.php');
 }
-if(!$_SESSION['type']=='student'){
+if(!($_SESSION['type']=='student')){
     Redirect::redirectTo($rp.'home.php');
 }
 $u = $user->getTableDetailsbyId('student','userId',$_SESSION['id']);
