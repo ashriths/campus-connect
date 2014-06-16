@@ -13,6 +13,7 @@ class Design{
 
     <!-- Bootstrap -->
     <link href="'.$rp.'css/bootstrap.min.css" rel="stylesheet">
+    <link href="'.$rp.'css/docs.min.css" rel="stylesheet">
     <link href="'.$rp.'/grid.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link href="'.$rp.'css/bootstrap.css" rel="stylesheet">
