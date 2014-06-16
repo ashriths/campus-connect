@@ -450,10 +450,9 @@ class User{
 		return $students;
 	}
 
-	/* acquire subjectid and classid
-		update_getNames() will just get u the students
 
-<<<<<<< HEAD
+
+
 	public function getStudentsUndermyProctorship(){
 		$uid = $_SESSION['id'];
 		$students = $this->doQuery("SELECT * FROM student WHERE proctorId = $uid");
@@ -523,10 +522,10 @@ class User{
 	}
 
 
-=======
-		execute a call to updateAttendance with subjectid and userid to increment attendance
 
-		*/
+		//execute a call to updateAttendance with subjectid and userid to increment attendance
+
+	
 	public function update_getNames($assArray)
 	{
 		$db = User::setupDatabase();
@@ -535,7 +534,7 @@ class User{
 
 		return $students;
 	}
->>>>>>> origin/master
+//>>>>>>> origin/master
 	
 
 	//call updateAttendance each time for every studnt in class
