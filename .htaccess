@@ -1,0 +1,14 @@
+errorDocument 400 http://www.bmsapp.tk/
+errorDocument 401 http://www.bmsapp.tk/
+errorDocument 403 http://www.bmsapp.tk/
+errorDocument 500 http://www.bmsapp.tk/
+errorDocument 404 http://www.bmsapp.tk/
+
+# Disable Directory Browsing
+Options All -Indexes
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^bmsapp.tk
+RewriteRule (.*) http://www.bmsapp.tk/$1 [R=301,L]
+
+

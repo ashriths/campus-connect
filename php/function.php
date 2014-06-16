@@ -59,15 +59,61 @@ class User{
 		
 	}
 
+
+
 	public function getUnreadNotificationNumber(){
 		$db = User::setupDatabase();
 		$uid= $_SESSION['id'];
-		$sql = "SELECT * from message where (toId = $uid AND seen = '0000-00-00 00:00:00')";
-		$result = $db->query($sql);
-		if(!$result){	
-			die('Error:'.$db->error);
+		$notifications['notifications'] = array();
+		$i=0;
+
+		if($_SESSION['type']=='student'){
+			$student = $this->getTableDetailsbyId('student','userId',$uid);
+			$pid = $student['proctorId'];
+			$sql = "SELECT * FROM proctornotification WHERE proctorId = $pid";
+			$result = $db->query($sql);
+			if(!$result){	
+				die('Error:'.$db->error);
+			}
+			//return multiple rows when query fetches more than one
+			
+			if(mysqli_num_rows($result)>=1){
+			$rows = array();
+	    		while($row = $result->fetch_assoc()) {
+	       			 $notifications['notifications'][] = $row;
+	    		}
+			}
 		}
-		return mysqli_num_rows($result);
+		$notifications['total'] = count($notifications['notifications']);
+		return $notifications['total'];
+		
+	}
+
+	public function getUnreadNotifications(){
+		$db = User::setupDatabase();
+		$uid= $_SESSION['id'];
+		$notifications['notifications'] = array();
+		$i=0;
+
+		if($_SESSION['type']=='student'){
+			$student = $this->getTableDetailsbyId('student','userId',$uid);
+			$pid = $student['proctorId'];
+			$sql = "SELECT * FROM proctornotification WHERE proctorId = $pid";
+			$result = $db->query($sql);
+			if(!$result){	
+				die('Error:'.$db->error);
+			}
+			//return multiple rows when query fetches more than one
+			
+			if(mysqli_num_rows($result)>=1){
+			$rows = array();
+	    		while($row = $result->fetch_assoc()) {
+	       			 $notifications['notifications'][] = $row;
+	    		}
+			}
+		}
+		$notifications['total'] = count($notifications['notifications']);
+		return $notifications;
 	}
 
 	public function getUnreadMsgNumber(){
@@ -312,6 +358,7 @@ class User{
 		$total =0;
 		if(count($result)>1){
 			for($i=0;$i<count($result);$i++){
+				
 				$total+=$result[$i]['score'];
 			}
 		}elseif(count($result)==1){
@@ -468,6 +515,17 @@ class User{
 			die('Error:'.$db->error);
 		}
 		$id = $db->insert_id;
+		$sql = "INSERT INTO notification (type, timestamp) VALUES ('proctor', NOW())";
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
+		$id2 =  $db->insert_id;
+		$sql = "INSERT INTO proctornotification (id, proctorId ,content) VALUES ($id2,$pid, 'Your proctor scheduled a proctor meeting on $datetime')";
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
 		return $id;
 	}
 
@@ -513,10 +571,10 @@ class User{
 		if($num<1){
 			return array('total'=> 0 ,'meetings'=>null);
 		}else if($num==1){
-			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp <= NOW()) ORDER BY timestamp");
 			return array('total'=>$num, 'meetings'=>array(0=>$meetings));
 		}else{
-			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp <= NOW()) ORDER BY timestamp");
 			return array('total'=>$num, 'meetings'=>$meetings);
 		}
 	}
@@ -592,23 +650,48 @@ class User{
 		}
 	}
 
+	public function getDeptNamefromId($id){
+		$result = $this -> getTableDetailsbyId('dept','deptId',$id);
+		return $result['name'];
+	}
+
 	public function getEvents()
 	{
-		//list all events....last 20
-		$db = User::setupDatabase();
-		$sql = "SELECT eventName, eventId,date,deptId from collegeevents order by (date)  limit 20";
-		$result = $this ->doQuery($sql);
-		
-		foreach ($result as $key => $value) {
-			$sql = "select name from dept where deptId=".$value['deptId'];
-			$res = $this ->doQuery($sql);
+		//list all kinds of events 
 
-			$value['deptName'] = $res['name'];
-			$result[$key] = $value;
+		$db = User::setupDatabase();
+
+		// get all dept events
+		$sql = "SELECT * from event where type='dept' order by (datetime)";
+		$result = $db->query($sql);
+		$num = mysqli_num_rows($result);
+		if($num<1){
+			$ev =  array('total'=> 0 ,'events'=>null);
+		}else if($num==1){
+			$meetings = $this->doQuery("SELECT * from event where type='dept' order by (datetime)");
+			$ev  = array('total'=>$num, 'events'=>array(0=>$meetings));
+		}else{
+			$meetings = $this->doQuery("SELECT * from event where type='dept' order by (datetime)");
+			$ev = array('total'=>$num, 'events'=>$meetings);
+		}
+
+		
+		// get open events
+		$sql = "SELECT * from event where type='open' order by (datetime)";
+		$result = $db->query($sql);
+		$num = mysqli_num_rows($result);
+		if($num==1){
+			$meetings = $this->doQuery("SELECT * from event where type='open' order by (datetime)");
+			$i = $ev['total']+=1;
+			 $ev['events'][$i-1]=$meetings;
+		}else{
+			$meetings = $this->doQuery("SELECT * from event where type='open' order by (datetime)");
+			$ev['total']+=$num;
+			 $ev['events']+=$meetings;
 		}
 
 		// print_r($result);
-		return $result;
+		return $ev;
 
 	}
 	public function getEventDetails($id)

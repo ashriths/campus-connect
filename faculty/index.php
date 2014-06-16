@@ -123,20 +123,40 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
     <div class="container" >
             <div class="panel panel-default">
                <div class="panel-heading">
-                <h3 class="panel-title">Recent Activity</h3>
+                <h3 class="panel-title">Upcoming Activity</h3>
                </div>
                <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                      <div class="thumbnail">
-                        <img src="http://2.bp.blogspot.com/-xe4it8bjn80/UCErXN0gYpI/AAAAAAAAADE/ZTZWjUNj-98/s640/228-data-structures-front.jpg" alt="Datastructures Image">
-                        <div class="caption">
-                          <h3>Lecture on Datastructures</h3>
-                          <p>Organised by Dept. Of CSE</p>
-                          <p><a href="#" class="btn btn-primary" role="button">More Details</a> </p>
-                        </div>
-                      </div>
-                    </div>
+                    <?php $result = $user ->getEvents();
+        //print_r($result);
+        //echo 'hello';
+        if($result['total']>0){
+            foreach ($result['events'] as $key => $value) {
+            
+              echo ' 
+                <div class="col-sm-6 col-md-3">
+                                  <div class="thumbnail">
+                                    <img src="'.$value['imgurl'].'" alt="Event Image">
+                                    <div class="caption">
+                                      <h3>'.$value['name'].'</h3>';
+                                      if($value['type']!='open'){
+                                          if($value['type']=='dept'){
+                                            $r = $user->getTableDetailsbyId('deptevent','id',$value['id']);
+                                            $o = $user->getDeptNamefromId($r['deptId']);
+                                            echo '<p>Organised by Dept. Of CSE</p>';
+                                          }
+                                      }
+                                      echo '<p><a href="?id='.$value['id'].'" class="btn btn-primary" role="button">More Details</a> </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                             ';
+
+
+            }
+        }
+        ?>
                   </div>
                </div>
             </div>

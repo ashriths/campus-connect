@@ -80,48 +80,22 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="panel panel-default">
-                      <div class="panel-heading">Notifications  <span class="badge pull-right">42</span></div>
+                      <div class="panel-heading">Notifications  <span class="badge pull-right"><?php echo $uNotif; ?></span></div>
                       <div class="panel-body">
+                         <div class="col-xs-12 col-md-12">
+                                <div class="list-group">
+                                     <?php
+
+                                             // get all Notification and print here
+                                              $not = $user->getUnreadNotifications();
+                                              //print_r($not);
+                                              for($i=0;$i<$not['total'];$i++){
+                                              echo '<a href="'.$rp.'notification.php?id='.$not['notifications'][$i]['id'].'" class="list-group-item"><b>'.$not['notifications'][$i]['content'].'</b></a>';
+                                              }
+                                        ?> 
+                                </div>
                     
-   <?php
-                
-                //write test data here
-           // $att = $user -> getSubjectsTaught(2);
-            // print_r($att);
-
-          	$result = $user -> updateMarks(3,15,5,5);
-          	// print_r($result);
-                /*
-
-                $grade = $user->getGradebySemAndSub(6,17);
-                
-                foreach ($grade as $key => $value) {
-                  echo "<br/>key: $key =>      ";
-                  foreach ($value as $key2 => $value2) { //for 2D array in case of multiple rows
-                    echo " $key2=> $value2";
-                    # code...
-                  }
-                }
-              
-          */  
-          /*
-                $cls= $user->getTableDetailsbyNonId('student','classId',$u['classId']);
-
-                foreach ($cls as $key => $value) {
-                  echo "<br/><br/>key: $key =>";
-                  foreach ($value as $key2 => $value2) { //for 2D array in case of multiple rows
-                    echo "<br/> $key2=> $value2";
-                    # code...
-                  }
-                }
-                //code to print associative array
-          */  
-
-
-               // get all Notification and print here
-
-
-          ?> 
+  
       </div>
                       </div>
                 </div>
@@ -130,23 +104,43 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
         
     </div>
         
-    <div class="container" >
+     <div class="container" >
             <div class="panel panel-default">
                <div class="panel-heading">
-                <h3 class="panel-title">Recent Activity</h3>
+                <h3 class="panel-title">Upcoming Activity</h3>
                </div>
                <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                      <div class="thumbnail">
-                        <img src="http://2.bp.blogspot.com/-xe4it8bjn80/UCErXN0gYpI/AAAAAAAAADE/ZTZWjUNj-98/s640/228-data-structures-front.jpg" alt="Datastructures Image">
-                        <div class="caption">
-                          <h3>Lecture on Datastructures</h3>
-                          <p>Organised by Dept. Of CSE</p>
-                          <p><a href="#" class="btn btn-primary" role="button">More Details</a> </p>
-                        </div>
-                      </div>
-                    </div>
+                    <?php $result = $user ->getEvents();
+        //print_r($result);
+        //echo 'hello';
+        if($result['total']>0){
+            foreach ($result['events'] as $key => $value) {
+            
+              echo ' 
+                <div class="col-sm-6 col-md-3">
+                                  <div class="thumbnail">
+                                    <img src="'.$value['imgurl'].'" alt="Event Image">
+                                    <div class="caption">
+                                      <h3>'.$value['name'].'</h3>';
+                                      if($value['type']!='open'){
+                                          if($value['type']=='dept'){
+                                            $r = $user->getTableDetailsbyId('deptevent','id',$value['id']);
+                                            $o = $user->getDeptNamefromId($r['deptId']);
+                                            echo '<p>Organised by Dept. Of CSE</p>';
+                                          }
+                                      }
+                                      echo '<p><a href="?id='.$value['id'].'" class="btn btn-primary" role="button">More Details</a> </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                             ';
+
+
+            }
+        }
+        ?>
                   </div>
                </div>
             </div>
