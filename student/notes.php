@@ -40,7 +40,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
     
     <hr />
 
-    <div class="container" style="margin-top:30pt; margin-left:150pt;">
+    <div class="container" style="margin-top:30pt; margin-left:120pt;">
       <div class="row">
           <div class="col-md-10 col-sm-10 col-xs-12">
                  <div class="panel-group" id="accordion">
@@ -108,13 +108,12 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
   </div>
 </div>
 
-    <div class="container-fluid" style="margin-top:30pt;" >
-        
+    <div class="container-fluid" style="margin-top:40pt;" >
+   
+        <div class="well">
         <p class="text-muted">&copy; 2014 All Rights reserved.</p>
         </div>
-  
-
-
+      </div>
 
     <?php
         $design->getJSIncludes($rp);
