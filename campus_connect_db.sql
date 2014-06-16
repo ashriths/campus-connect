@@ -3,7 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
+<<<<<<< HEAD
 -- Generation Time: Jun 16, 2014 at 05:47 PM
+=======
+-- Generation Time: Jun 16, 2014 at 12:00 AM
+>>>>>>> FETCH_HEAD
 -- Server version: 5.6.12
 -- PHP Version: 5.5.3
 
@@ -97,6 +101,7 @@ INSERT INTO `class` (`classId`, `sem`, `deptId`, `section`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `collegeevents` (
+<<<<<<< HEAD
   `eventId` int(5) NOT NULL AUTO_INCREMENT,
   `eventName` varchar(50) NOT NULL,
   `deptId` int(5) NOT NULL,
@@ -117,6 +122,14 @@ INSERT INTO `collegeevents` (`eventId`, `eventName`, `deptId`, `message`, `date`
 (10, 'MECH fest', 2, 'asmn askjdkajsd \r\nasdkjasdkjabsdkjasd', '2014-06-28', 'MPH', '2014-06-16 05:04:36'),
 (11, 'protocol', 1, 'aknbdf sjd f jhbc aksjdndakjsd akjsd\\asd\r\naskdjaksdj akjsdbkajsd\r\nasdkjasd\r\nasd', '2014-06-18', 'CS LAB', '2014-06-16 05:04:36'),
 (12, 'tech fest', 3, 'sdlkfn skdjfksdfbj skdjfskdj\r\nsdfsdf sdkfjsdf\r\nsdf', '2014-06-26', 'MECH audi', '2014-06-16 05:05:35');
+=======
+  `eventName` varchar(50) NOT NULL,
+  `message` varchar(200) NOT NULL,
+  `date` date NOT NULL,
+  `venue` varchar(50) NOT NULL,
+  `timestampValue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+>>>>>>> FETCH_HEAD
 
 -- --------------------------------------------------------
 
@@ -136,10 +149,17 @@ CREATE TABLE IF NOT EXISTS `dept` (
 
 INSERT INTO `dept` (`deptId`, `name`) VALUES
 (1, 'CSE'),
+<<<<<<< HEAD
 (2, 'ECE'),
 (3, 'MECH'),
 (9, 'TC'),
 (10, 'ECE');
+=======
+(2, ''),
+(3, ''),
+(9, ''),
+(10, '');
+>>>>>>> FETCH_HEAD
 
 -- --------------------------------------------------------
 
@@ -217,6 +237,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Table structure for table `notes`
 --
 
@@ -238,6 +259,8 @@ INSERT INTO `notes` (`subjectId`, `author`, `link`, `dateAdded`) VALUES
 -- --------------------------------------------------------
 
 --
+=======
+>>>>>>> FETCH_HEAD
 -- Table structure for table `notification`
 --
 
@@ -267,6 +290,7 @@ CREATE TABLE IF NOT EXISTS `oldgrades` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Table structure for table `qp`
 --
 
@@ -314,6 +338,8 @@ INSERT INTO `qpType` (`type`) VALUES
 -- --------------------------------------------------------
 
 --
+=======
+>>>>>>> FETCH_HEAD
 -- Table structure for table `student`
 --
 
@@ -452,8 +478,13 @@ INSERT INTO `user` (`userId`, `type`, `email`, `password`) VALUES
 -- Constraints for table `absentees`
 --
 ALTER TABLE `absentees`
+<<<<<<< HEAD
   ADD CONSTRAINT `absentees_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `student` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `absentees_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE;
+=======
+  ADD CONSTRAINT `absentees_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `absentees_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `student` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+>>>>>>> FETCH_HEAD
 
 --
 -- Constraints for table `attendance`
@@ -469,12 +500,15 @@ ALTER TABLE `class`
   ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+<<<<<<< HEAD
 -- Constraints for table `collegeevents`
 --
 ALTER TABLE `collegeevents`
   ADD CONSTRAINT `collegeevents_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+=======
+>>>>>>> FETCH_HEAD
 -- Constraints for table `marks`
 --
 ALTER TABLE `marks`
@@ -490,12 +524,15 @@ ALTER TABLE `message`
   ADD CONSTRAINT `message_ibfk_5` FOREIGN KEY (`toId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
 
 --
+<<<<<<< HEAD
 -- Constraints for table `notes`
 --
 ALTER TABLE `notes`
   ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+=======
+>>>>>>> FETCH_HEAD
 -- Constraints for table `oldgrades`
 --
 ALTER TABLE `oldgrades`
@@ -503,6 +540,7 @@ ALTER TABLE `oldgrades`
   ADD CONSTRAINT `oldgrades_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+<<<<<<< HEAD
 -- Constraints for table `qp`
 --
 ALTER TABLE `qp`
@@ -517,6 +555,14 @@ ALTER TABLE `student`
   ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `student_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
   ADD CONSTRAINT `student_ibfk_4` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`);
+=======
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_4` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`),
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `student_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
+>>>>>>> FETCH_HEAD
 
 --
 -- Constraints for table `studentsem`
@@ -534,16 +580,27 @@ ALTER TABLE `subject`
 -- Constraints for table `teacher`
 --
 ALTER TABLE `teacher`
+<<<<<<< HEAD
   ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
   ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
+=======
+  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`);
+>>>>>>> FETCH_HEAD
 
 --
 -- Constraints for table `teachersubject`
 --
 ALTER TABLE `teachersubject`
+<<<<<<< HEAD
   ADD CONSTRAINT `teachersubject_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teachersubject_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teachersubject_ibfk_4` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`userId`);
+=======
+  ADD CONSTRAINT `teachersubject_ibfk_4` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`userId`),
+  ADD CONSTRAINT `teachersubject_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teachersubject_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE;
+>>>>>>> FETCH_HEAD
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
