@@ -8,7 +8,7 @@ require($rp.'php/function.php');
 if(!isset($_SESSION['id'])){
     Redirect::redirectTo($rp.'login.php');
 }
-if(!$_SESSION['type']=='student'){
+if(!($_SESSION['type']=='student')){
     Redirect::redirectTo($rp.'home.php');
 }
 $u = $user->getTableDetailsbyId('student','userId',$_SESSION['id']);
@@ -38,7 +38,9 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getStudentNavbar($rp,0,$u['usn']);
+      $uNotif = $user->getUnreadNotificationNumber();
+      $uMsg = $user->getUnreadMsgNumber();
+      $design->getStudentNavbar($rp,0,$u['usn'], $uNotif,$uMsg);
     ?>
     
     <hr />
@@ -57,15 +59,15 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                               <div class="col-xs-12 col-md-8">
                                    
                                       <table class="table table-hover">
-                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td>></tr>
-                                        <tr><th>USN</th><td><?php echo strtoupper($u['usn']); ?></td>></tr>
+                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td></tr>
+                                        <tr><th>USN</th><td><?php echo strtoupper($u['usn']); ?></td></tr>
                                         <tr><th>Branch</th><td>
                                         <?php //echo $class['deptId'];
                                             $dept = $user->getTableDetailsbyId('dept','deptId',$class['deptId']);
                                             echo strtoupper($dept['name']);?>
-                                        </td>></tr>
-                                        <tr><th>Semester</th><td><?php echo $class['sem']; ?></td>></tr>
-                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td>></tr>
+                                        </td></tr>
+                                        <tr><th>Semester</th><td><?php echo $class['sem']; ?></td></tr>
+                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td></tr>
                                       </table>
                                     
                              </div>
@@ -87,8 +89,12 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
            // $att = $user -> getSubjectsTaught(2);
             // print_r($att);
 
+<<<<<<< HEAD
           	// $result = $user -> updateMarks(3,15,5,5);
               $result = $user -> suggestSem();
+=======
+          	//$result = $user -> updateMarks(3,15,5,5);
+>>>>>>> FETCH_HEAD
           	// print_r($result);
                 /*
 

@@ -38,7 +38,10 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getStudentNavbar($rp,2,$u['usn']);
+      $uNotif = $user->getUnreadNotificationNumber();
+      $uMsg = $user->getUnreadMsgNumber();
+      $design->getStudentNavbar($rp,2,$u['usn'], $uNotif,$uMsg);
+
       $att = $user->getMyAttendance($_SESSION['id']);
     ?>
     
