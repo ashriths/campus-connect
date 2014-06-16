@@ -59,6 +59,28 @@ class User{
 		
 	}
 
+	public function getUnreadNotificationNumber(){
+		$db = User::setupDatabase();
+		$uid= $_SESSION['id'];
+		$sql = "SELECT * from message where (toId = $uid AND seen = '0000-00-00 00:00:00')";
+		$result = $db->query($sql);
+		if(!$result){	
+			die('Error:'.$db->error);
+		}
+		return mysqli_num_rows($result);
+	}
+
+	public function getUnreadMsgNumber(){
+		$db = User::setupDatabase();
+		$uid= $_SESSION['id'];
+		$sql = "SELECT * from message where (toId = $uid AND seen = '0000-00-00 00:00:00')";
+		$result = $db->query($sql);
+		if(!$result){	
+			die('Error:'.$db->error);
+		}
+		return mysqli_num_rows($result);
+	}
+
 	//returns details ofa table searched with nonkey value
 	public function getTableDetailsbyNonId($table,$att,$nid)
 	{
@@ -427,6 +449,75 @@ class User{
 		/*$students is to be accessed using a foreach ..inside it $student['marksarray'] is to be done using foreach loop */
 		
 		return $students;
+	}
+
+
+	public function getStudentsUndermyProctorship(){
+		$uid = $_SESSION['id'];
+		$students = $this->doQuery("SELECT * FROM student WHERE proctorId = $uid");
+		return $students;
+	}
+
+	public function addProctorMeeting($datetime,$issue){
+		$db = User::setupDatabase();
+		$pid = $_SESSION['id'];
+		$sql = "INSERT INTO proctormeeting (proctorId, timestamp ,issue) VALUES ($pid, '$datetime','$issue')";
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
+		$id = $db->insert_id;
+		return $id;
+	}
+
+	public function removeProctorMeeting($id){
+		$db = User::setupDatabase();
+		$pid = $_SESSION['id'];
+		$sql = "DELETE FROM proctormeeting WHERE id = $id";
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
+		return $result;
+	}
+
+	public function getScheduledProctorMeetingsByProctorId($pid){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp";
+		$result = $db->query($sql);
+		if(!$result){	
+			die('Error:'.$db->error);
+		}
+		$num = mysqli_num_rows($result);
+		if($num<1){
+			return array('total'=> 0 ,'meetings'=>null);
+		}else if($num==1){
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			return array('total'=>$num, 'meetings'=>array(0=>$meetings));
+		}else{
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			return array('total'=>$num, 'meetings'=>$meetings);
+		}
+
+	}
+
+	public function getOldProctorMeetingsByProctorId($pid){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from proctormeeting where (proctorId = $pid AND timestamp <= NOW()) ORDER BY timestamp";
+		$result = $db->query($sql);
+		if(!$result){	
+			die('Error:'.$db->error);
+		}
+		$num = mysqli_num_rows($result);
+		if($num<1){
+			return array('total'=> 0 ,'meetings'=>null);
+		}else if($num==1){
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			return array('total'=>$num, 'meetings'=>array(0=>$meetings));
+		}else{
+			$meetings = $this->doQuery("SELECT * from proctormeeting where (proctorId = $pid AND timestamp >= NOW()) ORDER BY timestamp");
+			return array('total'=>$num, 'meetings'=>$meetings);
+		}
 	}
 
 

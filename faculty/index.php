@@ -35,7 +35,9 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getFacultyNavbar($rp,0);
+      $uNotif = $user->getUnreadNotificationNumber();
+      $uMsg = $user->getUnreadMsgNumber();
+      $design->getFacultyNavbar($rp,0,$uNotif,$uMsg);
     ?>
     
     <hr />
@@ -95,14 +97,14 @@ $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
                               <div class="col-xs-12 col-md-8">
                                    
                                       <table class="table table-hover">
-                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td>></tr>
+                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td></tr>
                                        
                                         <tr><th>Department</th><td>
                                         <?php //echo $class['deptId'];
                                             $dept = $user->getTableDetailsbyId('dept','deptId',$u['deptId']);
                                             echo strtoupper($dept['name']);?>
-                                        </td>></tr>
-                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td>></tr>
+                                        </td></tr>
+                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td></tr>
                                       </table>
                                     
                              </div>

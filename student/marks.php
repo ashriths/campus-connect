@@ -38,7 +38,11 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getStudentNavbar($rp,1,$u['usn']);
+
+     $uNotif = $user->getUnreadNotificationNumber();
+      $uMsg = $user->getUnreadMsgNumber();
+      $design->getStudentNavbar($rp,1,$u['usn'], $uNotif,$uMsg);
+   
     //  $marks = $user->getMyGrades($_SESSION['id']);
 
     ?>

@@ -38,7 +38,9 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
   </head>
   <body style="padding-top:35px">
     <?php
-      $design->getStudentNavbar($rp,0,$u['usn']);
+      $uNotif = $user->getUnreadNotificationNumber();
+      $uMsg = $user->getUnreadMsgNumber();
+      $design->getStudentNavbar($rp,0,$u['usn'], $uNotif,$uMsg);
     ?>
     
     <hr />
@@ -57,15 +59,15 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                               <div class="col-xs-12 col-md-8">
                                    
                                       <table class="table table-hover">
-                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td>></tr>
-                                        <tr><th>USN</th><td><?php echo strtoupper($u['usn']); ?></td>></tr>
+                                        <tr><th>Name</th><td><?php echo strtoupper($u['name']); ?></td></tr>
+                                        <tr><th>USN</th><td><?php echo strtoupper($u['usn']); ?></td></tr>
                                         <tr><th>Branch</th><td>
                                         <?php //echo $class['deptId'];
                                             $dept = $user->getTableDetailsbyId('dept','deptId',$class['deptId']);
                                             echo strtoupper($dept['name']);?>
-                                        </td>></tr>
-                                        <tr><th>Semester</th><td><?php echo $class['sem']; ?></td>></tr>
-                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td>></tr>
+                                        </td></tr>
+                                        <tr><th>Semester</th><td><?php echo $class['sem']; ?></td></tr>
+                                         <tr><th>Email&nbsp;<span href="#" data-toggle="tooltip" title="Your email address is visible only to you" data-original-title="Your email address is visible only to you"><span class="glyphicon glyphicon-lock"></span></span></th><td><?php echo $u['email']; ?></td></tr>
                                       </table>
                                     
                              </div>

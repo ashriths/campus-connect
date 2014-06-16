@@ -17,6 +17,7 @@ class Design{
     <!-- Latest compiled and minified CSS -->
     <link href="'.$rp.'css/bootstrap.css" rel="stylesheet">
     <link href="'.$rp.'css/pace.css" rel="stylesheet">
+    <link href="'.$rp.'css/mycss.css" rel="stylesheet">
     <style id="holderjs-style" type="text/css"></style>
     <script type="text/javascript" src="'.$rp.'js/pace.js" ></script>
     <!-- Optional theme -->
@@ -32,7 +33,7 @@ class Design{
 
 	}
 
-	public function getStudentNavbar($rp,$active,$usn){
+	public function getStudentNavbar($rp,$active,$usn,$uNotif,$uMsg){
     echo ' <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -66,6 +67,10 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="hidden-xs"><a class="link" href="notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uMsg>0) echo 'red'; echo'">'.$uMsg.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="messages.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="messages.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
               <ul class="dropdown-menu">
                 <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
@@ -86,7 +91,8 @@ class Design{
 		
 	}
 
-  public function getFacultyNavbar($rp,$active){
+  public function getFacultyNavbar($rp,$active,$uNotif,$uMsg){
+    
     echo ' <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -120,6 +126,10 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+             <li class="hidden-xs"><a class="link" href="notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uMsg>0) echo 'red'; echo'">'.$uMsg.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="messages.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="messages.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
               <ul class="dropdown-menu">
                 <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
