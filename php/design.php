@@ -13,6 +13,7 @@ class Design{
 
     <!-- Bootstrap -->
     <link href="'.$rp.'css/bootstrap.min.css" rel="stylesheet">
+    <link href="'.$rp.'css/docs.min.css" rel="stylesheet">
     <link href="'.$rp.'/grid.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link href="'.$rp.'css/bootstrap.css" rel="stylesheet">
@@ -56,7 +57,7 @@ class Design{
             <li class="'; if($active==4) echo 'active';  echo ' dropdown" >
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a class="link" href="#">Notes</a></li>
+                <li><a class="link" href="notes.php">Notes</a></li>
                 <li><a class="link" href="#">Question Papers</a></li>
                 <li><a class="link" href="#">Syllabus Copy</a></li>
                 <li class="divider"></li>

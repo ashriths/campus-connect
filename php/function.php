@@ -592,6 +592,38 @@ class User{
 		}
 	}
 
+	public function getEvents()
+	{
+		//list all events....last 20
+		$db = User::setupDatabase();
+		$sql = "SELECT eventName, eventId,date,deptId from collegeevents order by (date)  limit 20";
+		$result = $this ->doQuery($sql);
+		
+		foreach ($result as $key => $value) {
+			$sql = "select name from dept where deptId=".$value['deptId'];
+			$res = $this ->doQuery($sql);
+
+			$value['deptName'] = $res['name'];
+			$result[$key] = $value;
+		}
+
+		// print_r($result);
+		return $result;
+
+	}
+	public function getEventDetails($id)
+	{
+		$db = User::setupDatabase();
+		$sql = "SELECT * from collegeevents where eventId=".$id;
+		$result = $this ->doQuery($sql);
+
+		$sql = "select name from dept where deptId=".$result['deptId'];
+			$res = $this ->doQuery($sql);
+		$result['deptName'] = $res['name'];
+		return $result;
+
+	}			
+
 
 
 }
