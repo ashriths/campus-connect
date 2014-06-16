@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2014 at 08:03 PM
+-- Generation Time: Jun 16, 2014 at 08:37 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -67,20 +67,6 @@ INSERT INTO `class` (`classId`, `sem`, `deptId`, `section`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `collegeevents`
---
-
-CREATE TABLE IF NOT EXISTS `collegeevents` (
-  `eventName` varchar(50) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  `date` date NOT NULL,
-  `venue` varchar(50) NOT NULL,
-  `timestampValue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `dept`
 --
 
@@ -100,6 +86,33 @@ INSERT INTO `dept` (`deptId`, `name`) VALUES
 (3, ''),
 (9, ''),
 (10, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deptevent`
+--
+
+CREATE TABLE IF NOT EXISTS `deptevent` (
+  `id` int(11) NOT NULL,
+  `deptId` int(11) NOT NULL,
+  KEY `id` (`id`,`deptId`),
+  KEY `deptId` (`deptId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event`
+--
+
+CREATE TABLE IF NOT EXISTS `event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` enum('open','dept','club','') NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -146,6 +159,13 @@ CREATE TABLE IF NOT EXISTS `marks` (
   KEY `examTypeId` (`examtypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `marks`
+--
+
+INSERT INTO `marks` (`userId`, `subjectId`, `score`, `examtypeId`) VALUES
+(3, 15, 5, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -163,7 +183,15 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `fromId` (`fromId`,`toId`),
   KEY `toId` (`toId`),
   KEY `fromId_2` (`fromId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`id`, `fromId`, `toId`, `timestamp`, `seen`, `content`) VALUES
+(1, 2, 1, '2014-06-16 09:41:26', '0000-00-00 00:00:00', 'THis is a Demo Message.'),
+(2, 2, 1, '2014-06-16 09:45:48', '0000-00-00 00:00:00', 'something');
 
 -- --------------------------------------------------------
 
@@ -197,6 +225,21 @@ CREATE TABLE IF NOT EXISTS `oldgrades` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `proctormeeting`
+--
+
+CREATE TABLE IF NOT EXISTS `proctormeeting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `proctorId` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `issue` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `proctorId` (`proctorId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student`
 --
 
@@ -219,7 +262,8 @@ CREATE TABLE IF NOT EXISTS `student` (
 --
 
 INSERT INTO `student` (`userId`, `usn`, `name`, `classId`, `proctorId`, `cgpa`) VALUES
-(1, '1BMXXXXXXX', 'Demo Student', 1, 2, '9.20');
+(1, '1BMXXXXXXX', 'Demo Student', 1, 2, '9.20'),
+(3, '1BMXXXXXXY', 'Demo Student 2', 1, 2, '9.30');
 
 -- --------------------------------------------------------
 
@@ -313,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
@@ -321,7 +365,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`userId`, `type`, `email`, `password`) VALUES
 (1, 's', 'student@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91'),
-(2, 't', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91');
+(2, 't', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91'),
+(3, 's', 'student2@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91');
 
 --
 -- Constraints for dumped tables
@@ -339,6 +384,13 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `class`
   ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `deptevent`
+--
+ALTER TABLE `deptevent`
+  ADD CONSTRAINT `deptevent_ibfk_3` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
+  ADD CONSTRAINT `deptevent_ibfk_2` FOREIGN KEY (`id`) REFERENCES `event` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `marks`
@@ -363,12 +415,18 @@ ALTER TABLE `oldgrades`
   ADD CONSTRAINT `oldgrades_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `proctormeeting`
+--
+ALTER TABLE `proctormeeting`
+  ADD CONSTRAINT `proctormeeting_ibfk_2` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`);
+
+--
 -- Constraints for table `student`
 --
 ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_4` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`),
   ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `student_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
+  ADD CONSTRAINT `student_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `student_ibfk_4` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`);
 
 --
 -- Constraints for table `studentsem`
@@ -386,16 +444,16 @@ ALTER TABLE `subject`
 -- Constraints for table `teacher`
 --
 ALTER TABLE `teacher`
-  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
-  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`);
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
+  ADD CONSTRAINT `teacher_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `teachersubject`
 --
 ALTER TABLE `teachersubject`
-  ADD CONSTRAINT `teachersubject_ibfk_4` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`userId`),
   ADD CONSTRAINT `teachersubject_ibfk_2` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `teachersubject_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `teachersubject_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `class` (`classId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teachersubject_ibfk_4` FOREIGN KEY (`teacherid`) REFERENCES `teacher` (`userId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
