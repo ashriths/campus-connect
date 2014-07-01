@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2014 at 08:37 PM
+-- Generation Time: Jun 17, 2014 at 05:20 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -33,6 +33,15 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   PRIMARY KEY (`subjectId`,`userId`),
   KEY `userId` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`subjectId`, `userId`, `classesAttended`) VALUES
+(1, 1, 21),
+(2, 1, 28),
+(3, 1, 28);
 
 -- --------------------------------------------------------
 
@@ -100,6 +109,13 @@ CREATE TABLE IF NOT EXISTS `deptevent` (
   KEY `deptId` (`deptId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `deptevent`
+--
+
+INSERT INTO `deptevent` (`id`, `deptId`) VALUES
+(2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -111,8 +127,18 @@ CREATE TABLE IF NOT EXISTS `event` (
   `type` enum('open','dept','club','') NOT NULL,
   `name` varchar(200) NOT NULL,
   `datetime` datetime NOT NULL,
+  `description` varchar(10000) NOT NULL,
+  `imgurl` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`id`, `type`, `name`, `datetime`, `description`, `imgurl`) VALUES
+(1, 'open', 'ISTE Workshop', '2014-06-19 00:00:00', 'This is Demo Description', 'http://blog.flvs.net/wp-content/uploads/2013/06/iste.jpg'),
+(2, 'dept', 'MATLAB Hands-on session', '2014-06-27 00:00:00', 'Demo Descrption', 'http://www.fil.ion.ucl.ac.uk/spm/images/matlab.png');
 
 -- --------------------------------------------------------
 
@@ -164,7 +190,9 @@ CREATE TABLE IF NOT EXISTS `marks` (
 --
 
 INSERT INTO `marks` (`userId`, `subjectId`, `score`, `examtypeId`) VALUES
-(3, 15, 5, 5);
+(1, 1, 19, 1),
+(1, 1, 20, 2),
+(1, 1, 20, 3);
 
 -- --------------------------------------------------------
 
@@ -201,10 +229,18 @@ INSERT INTO `message` (`id`, `fromId`, `toId`, `timestamp`, `seen`, `content`) V
 
 CREATE TABLE IF NOT EXISTS `notification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('user','class','college','dept') NOT NULL,
+  `type` enum('user','class','college','dept','proctor') NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `link` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`id`, `type`, `timestamp`, `link`) VALUES
+(1, 'proctor', '2014-06-16 19:50:55', '');
 
 -- --------------------------------------------------------
 
@@ -222,6 +258,13 @@ CREATE TABLE IF NOT EXISTS `oldgrades` (
   KEY `subjectId` (`subjectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `oldgrades`
+--
+
+INSERT INTO `oldgrades` (`userId`, `subjectId`, `sem`, `grade`) VALUES
+(1, 2, 5, 'A');
+
 -- --------------------------------------------------------
 
 --
@@ -235,7 +278,36 @@ CREATE TABLE IF NOT EXISTS `proctormeeting` (
   `issue` varchar(500) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `proctorId` (`proctorId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `proctormeeting`
+--
+
+INSERT INTO `proctormeeting` (`id`, `proctorId`, `timestamp`, `issue`) VALUES
+(7, 2, '2014-06-14 19:30:00', 'Ddsdfsdf'),
+(8, 2, '2014-06-14 19:30:00', 'Ddsdfsdf');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `proctornotification`
+--
+
+CREATE TABLE IF NOT EXISTS `proctornotification` (
+  `id` int(11) NOT NULL,
+  `proctorId` int(11) NOT NULL,
+  `content` varchar(500) NOT NULL,
+  KEY `id` (`id`,`proctorId`),
+  KEY `proctorId` (`proctorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `proctornotification`
+--
+
+INSERT INTO `proctornotification` (`id`, `proctorId`, `content`) VALUES
+(1, 2, 'Your proctor scheduled a proctor meeting on 2014-06-19 01:00');
 
 -- --------------------------------------------------------
 
@@ -278,6 +350,17 @@ CREATE TABLE IF NOT EXISTS `studentsem` (
   KEY `userId` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `studentsem`
+--
+
+INSERT INTO `studentsem` (`userId`, `sem`, `sgpa`) VALUES
+(1, 5, '9.10'),
+(1, 4, '9.18'),
+(1, 3, '9.21'),
+(1, 2, '8.82'),
+(1, 1, '9.58');
+
 -- --------------------------------------------------------
 
 --
@@ -293,18 +376,18 @@ CREATE TABLE IF NOT EXISTS `subject` (
   `deptId` int(5) NOT NULL,
   PRIMARY KEY (`subjectId`),
   KEY `deptId` (`deptId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `subject`
 --
 
 INSERT INTO `subject` (`subjectId`, `subjectName`, `subjectCode`, `sem`, `credits`, `deptId`) VALUES
-(13, 'Web Programming', '10CI5GCWEP', 6, 6, 1),
-(14, 'Java', '10CI5GCJAV', 5, 6, 1),
-(15, 'OOMD', '10CI5GCOOM', 6, 4, 1),
-(16, 'Software Engineering', '10CI5GCSWE', 6, 3, 1),
-(17, 'Computer Networks', '10CI5GCCON', 6, 6, 1);
+(1, 'Web Programming', '10CI5GCWEP', 6, 6, 1),
+(2, 'Java', '10CI5GCJAV', 5, 6, 1),
+(3, 'OOMD', '10CI5GCOOM', 6, 4, 1),
+(4, 'Software Engineering', '10CI5GCSWE', 6, 3, 1),
+(5, 'Computer Networks', '10CI5GCCON', 6, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -344,6 +427,14 @@ CREATE TABLE IF NOT EXISTS `teachersubject` (
   KEY `classId_2` (`classId`),
   KEY `teacherid` (`teacherid`,`subjectId`,`classId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `teachersubject`
+--
+
+INSERT INTO `teachersubject` (`teacherid`, `subjectId`, `classId`, `totalClasses`) VALUES
+(2, 1, 1, 30),
+(2, 3, 1, 30);
 
 -- --------------------------------------------------------
 
@@ -389,8 +480,8 @@ ALTER TABLE `class`
 -- Constraints for table `deptevent`
 --
 ALTER TABLE `deptevent`
-  ADD CONSTRAINT `deptevent_ibfk_3` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
-  ADD CONSTRAINT `deptevent_ibfk_2` FOREIGN KEY (`id`) REFERENCES `event` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `deptevent_ibfk_2` FOREIGN KEY (`id`) REFERENCES `event` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `deptevent_ibfk_3` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`);
 
 --
 -- Constraints for table `marks`
@@ -419,6 +510,13 @@ ALTER TABLE `oldgrades`
 --
 ALTER TABLE `proctormeeting`
   ADD CONSTRAINT `proctormeeting_ibfk_2` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`);
+
+--
+-- Constraints for table `proctornotification`
+--
+ALTER TABLE `proctornotification`
+  ADD CONSTRAINT `proctornotification_ibfk_1` FOREIGN KEY (`id`) REFERENCES `notification` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `proctornotification_ibfk_2` FOREIGN KEY (`proctorId`) REFERENCES `teacher` (`userId`);
 
 --
 -- Constraints for table `student`
