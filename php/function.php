@@ -189,18 +189,7 @@ class User{
 
 	}
 
-	/*
-	public function getTableDetailsby2Id($table$idname1,$id1,$idname2,$id2)
-	{
-		$db = User::setupDatabase();
-		$sql = "SELECT * from  where (subjectId = $sub AND sem = $sem)";
-		$result = $db->query($sql);
-		if(!$result){	
-			die('Error:'.$db->error);
-		}
-
-	}
-	*/	
+	
 
 	
 	public function doQuery($sql)//execute a string based query
