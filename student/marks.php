@@ -167,6 +167,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
             </div>
     </div>
   </div>
+</div>
 
 
 

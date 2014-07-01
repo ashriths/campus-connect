@@ -77,7 +77,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
         
         echo '<div class="container">
                 <div class="bs-callout bs-callout-info">
-                  <h3><b>'.strtoupper($result['eventName']).'</b> &nbsp;&nbsp;<small>  By: &nbsp;'.$result['deptName'].'</small></h3>
+                  <h4 style="font-size:19pt;"><b>'.strtoupper($result['eventName']).'</b> &nbsp;&nbsp;<small>  By: &nbsp;'.$result['deptName'].'</small></h4>
                     <p style="font-size:12pt;"><b>Venue : </b>'.$result['venue'].' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$result['date'].'</p>
 
                     <p style="font-size:12pt;">'.$result['message'].'</p>

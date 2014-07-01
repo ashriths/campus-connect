@@ -60,7 +60,7 @@ class Design{
               <ul class="dropdown-menu">
                 <li><a class="link" href="notes.php">Notes</a></li>
                 <li><a class="link" href="#">Question Papers</a></li>
-                <li><a class="link" href="#">Syllabus Copy</a></li>
+                <li><a class="link" href="syllabus.php">Syllabus Copy</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>

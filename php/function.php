@@ -696,6 +696,35 @@ class User{
 
 	}			
 
+	public function suggestDept()
+	{
+
+		$db = User::setupDatabase();
+		$sql = "select name from dept where deptId in
+				(select distinct(deptId) from subject where subjectId in
+				(select distinct(subjectId) from notes)
+				) order by (name)";
+
+		$result = $this ->doQuery($sql);
+		print_r($result);
+		
+		return $result;
+	}
+
+	public function suggestSem()
+	{
+		$db = User::setupDatabase();
+		$sql = "select distinct(sem) from subject where subjectId in
+				(select distinct(subjectId) from notes) order by (sem)
+				";
+
+		$result = $this ->doQuery($sql);
+		print_r($result);
+		
+		return $result;
+
+	}
+
 
 
 }
