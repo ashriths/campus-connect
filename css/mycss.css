@@ -1,3 +1,17 @@
 .red{
 	background-color: red;
 }
+
+.profile-thumb{
+	width:64px;
+	height: 64px;
+}
+
+.old-messages{
+	height: 450px;
+	overflow-y: scroll;
+}
+
+.hidden-all{
+	display:none;
+}

@@ -89,6 +89,7 @@ class User{
 		
 	}
 
+
 	public function getUnreadNotifications(){
 		$db = User::setupDatabase();
 		$uid= $_SESSION['id'];
@@ -125,6 +126,57 @@ class User{
 			die('Error:'.$db->error);
 		}
 		return mysqli_num_rows($result);
+	}
+
+	public function sendMessage($to, $msg){
+		$db = User::setupDatabase();
+		$msg = $db->real_escape_string($msg);
+		$from = $_SESSION['id'];
+		$sql = "INSERT INTO message (fromId, toId ,timestamp ,content) VALUES ($from, $to ,now(),'$msg')";
+		echo $sql;
+		$result = $db->query($sql);
+		if(!$result){
+			die('Error:'.$db->error);
+		}
+		$id = $db->insert_id;
+		return $id;
+	}
+
+	public function getMessageDetails($id){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from message where id=".$id;
+		$result = $this ->doQuery($sql);
+		return $result;
+		
+	}
+
+	public function getConversation($from,$to){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from message where (toId=$from and fromId=$to) or (fromId=$from and toId=$to) order by timestamp";
+		$result = $this ->getStructuredResult($sql);
+		return $result;
+	}
+
+	public function getStructuredResult($sql){
+		$db =User::setupDatabase();
+		$result = $db ->query($sql);
+		if(!$result)
+		{
+			die('Error'>$db->error);
+		}
+
+		if(mysqli_num_rows($result)>1){
+		$rows = array();
+    		while($row = $result->fetch_assoc()) {
+       			 $rows[] = $row;
+    			// print_r($row);
+    			// echo "<br/>";
+    		}
+
+		return array('length'=>mysqli_num_rows($result),'rows'=>$rows);
+		} 
+		$row = $result ->fetch_assoc();
+		return array('length'=>mysqli_num_rows($result),'rows'=>$row);
 	}
 
 	//returns details ofa table searched with nonkey value
@@ -276,18 +328,7 @@ class User{
 		// return $arr;
 	}  
 
-	public function sendMessage($to, $msg){
-		$db = User::setupDatabase();
-		$msg = $db->real_escape_string($msg);
-		$from = $_SESSION['id'];
-		$sql = "INSERT INTO message (fromId, toId ,content) VALUES ($from, $to,'$msg')";
-		$result = $db->query($sql);
-		if(!$result){
-			die('Error:'.$db->error);
-		}
-		$id = $db->insert_id;
-		return $id;
-	}
+	
 	public function getGradebySem($sem,$uid)//query oldGrades table return * from oldgrades + subject name and code +[credits]
 	{
 		$db = User::setupDatabase();
@@ -356,8 +397,7 @@ class User{
 		return $total;
 	}
 
-	public function getMyGrades($userId)//current marks... returns (userId,subjectName,examName,code,score,maxMarks)
-	{
+	public function getMyGrades($userId){
 		
 		$db=User::setupDatabase();
 		
@@ -397,11 +437,8 @@ class User{
 
 	}
 
-
-
 	//functions for teachers
-	public function getSubjectsTaught($tid)
-	{   
+	public function getSubjectsTaught($tid){   
 		// part 1 of function
 		//returns subject name and class section and sem eg webprogramming 6 A +other details
 		//display this and ask to select any one ...den send (classId and subjectId) and query further
@@ -426,8 +463,7 @@ class User{
 		return $allsubjects;
 	} 
 
-	public function getStudentAttendance($assArray)
-	{
+	public function getStudentAttendance($assArray){
 		// part 2
 		// query student with classid and obtain list of all studnets ,,,order by usn
 		//query attemdamce with userid
@@ -452,8 +488,7 @@ class User{
 
 	}
 
-	public function getStudentMarks($assArray)
-	{
+	public function getStudentMarks($assArray){
 
 		
 		
@@ -485,9 +520,6 @@ class User{
 			
 		return $students;
 	}
-
-
-
 
 	public function getStudentsUndermyProctorship(){
 		$uid = $_SESSION['id'];
@@ -573,8 +605,7 @@ class User{
 		//execute a call to updateAttendance with subjectid and userid to increment attendance
 
 	
-	public function update_getNames($assArray)
-	{
+	public function update_getNames($assArray){
 		$db = User::setupDatabase();
 		$sql = "select userId, usn, name from student where classId =".$assArray['classId']." order by(usn)";
 		$students = $this -> doQuery($sql);
@@ -585,8 +616,7 @@ class User{
 	
 
 	//call updateAttendance each time for every studnt in class
-	public function updateAttendance($subjectId,$userId,$bool)
-	{
+	public function updateAttendance($subjectId,$userId,$bool){
 		$db = User::setupDatabase();
 		if($bool){
 			
@@ -644,8 +674,7 @@ class User{
 		return $result['name'];
 	}
 
-	public function getEvents()
-	{
+	public function getEvents(){
 		//list all kinds of events 
 
 		$db = User::setupDatabase();
@@ -683,21 +712,20 @@ class User{
 		return $ev;
 
 	}
-	public function getEventDetails($id)
-	{
+	public function getEventDetails($id){
 		$db = User::setupDatabase();
 		$sql = "SELECT * from collegeevents where eventId=".$id;
 		$result = $this ->doQuery($sql);
-
-		$sql = "select name from dept where deptId=".$result['deptId'];
-			$res = $this ->doQuery($sql);
-		$result['deptName'] = $res['name'];
+		if($result['type']=='dept'){
+				$sql = "select name from dept where deptId=".$result['deptId'];
+					$res = $this ->doQuery($sql);
+				$result['deptName'] = $res['name'];
+			}
 		return $result;
 
 	}			
 
-	public function suggestDept()
-	{
+	public function suggestDept(){
 
 		$db = User::setupDatabase();
 		$sql = "select name from dept where deptId in
@@ -711,8 +739,7 @@ class User{
 		return $result;
 	}
 
-	public function suggestSem()
-	{
+	public function suggestSem(){
 		$db = User::setupDatabase();
 		$sql = "select distinct(sem) from subject where subjectId in
 				(select distinct(subjectId) from notes) order by (sem)
@@ -738,8 +765,8 @@ class Session{
 		$_SESSION['id']=$id;
 		$_SESSION['type']=$type;
 	}
-	public function createSessionTemp($var)
-	{
+	
+	public function createSessionTemp($var){
 		$_SESSION['temp']=$var;
 	}
 

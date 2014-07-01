@@ -69,10 +69,10 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="hidden-xs"><a class="link" href="notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
-            <li class="hidden-xs"><a class="link" href="messages.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
-            <li class="visible-xs"><a class="link" href="notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
-            <li class="visible-xs"><a class="link" href="messages.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="'.$rp.'notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="'.$rp.'message.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'message.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
               <ul class="dropdown-menu">
                 <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
@@ -128,10 +128,10 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-          <li class="hidden-xs"><a class="link" href="notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
-            <li class="hidden-xs"><a class="link" href="messages.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
-            <li class="visible-xs"><a class="link" href="notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
-            <li class="visible-xs"><a class="link" href="messages.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+          <li class="hidden-xs"><a class="link" href="'.$rp.'notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="'.$rp.'message.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'message.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
               <ul class="dropdown-menu">
                 <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>

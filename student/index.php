@@ -54,7 +54,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
                       <div class="panel-body">
                         <div class="row">
                              <div class="col-xs-12 col-md-4">
-                                <img src="../img/profile.jpg" class="img-thumbnail"/>
+                                <img src="<?php echo $u['pic'] ; ?>" class="img-thumbnail"/>
                              </div>
                               <div class="col-xs-12 col-md-8">
                                    

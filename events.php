@@ -109,7 +109,7 @@ $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
     {
         $id = $_GET['id'];
         $result = $user -> getEventDetails($id);
-        // print_r($result);
+         print_r($result);
         
         echo '<div class="container">
                 <div class="bs-callout bs-callout-info">
