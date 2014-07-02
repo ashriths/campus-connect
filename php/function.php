@@ -154,7 +154,48 @@ class User{
 		$db = User::setupDatabase();
 		$sql = "SELECT * from message where (toId=$from and fromId=$to) or (fromId=$from and toId=$to) order by timestamp";
 		$result = $this ->getStructuredResult($sql);
+		$this->markAsRead($from,$to);
 		return $result;
+	}
+
+	public function markAsRead($from,$to){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from message where (toId=$from and fromId=$to and seen = '0000-00-00 00:00:00') ";
+		$result = $this ->getStructuredResult($sql);
+		//print_r($result);
+		for($i=0;$i<$result['length'];$i++){
+			$id= $result['rows'][$i]['id'];
+			$sql = "UPDATE message SET seen = now() where  id =$id";
+			$result = $db->query($sql);
+			if(!$result){	
+				die('Error:'.$db->error);
+			}
+		}	
+}
+
+	public function getThreads(){
+		$uid= $_SESSION['id'];
+		$sql = "SELECT distinct fromId from message where (toId=$uid ) order by timestamp";
+		$result1 = $this ->getStructuredResult($sql);
+		for($i=0;$i<$result1['length'];$i++){
+			$result[$i]=$result1['rows'][$i]['fromId'];
+		}
+		$i--;
+		$sql = "SELECT distinct toId from message where (fromId=$uid ) order by timestamp";
+		$result2 = $this ->getStructuredResult($sql);
+		for($j=0;$j<$result2['length'];$j++){
+			$result[$i++]=$result2['rows'][$j]['toId'];
+		}
+		$result = array_unique($result);
+		return array('length'=>count($result),'rows'=>$result);
+	}
+
+	public function getUnreadInConversation($from,$to){
+		$db = User::setupDatabase();
+		$sql = "SELECT * from message where (fromId=$from and toId=$to) and seen = '0000-00-00 00:00:00'";
+		//echo $sql;
+		$result = $this ->getStructuredResult($sql);
+		return $result['length'];
 	}
 
 	public function getStructuredResult($sql){
@@ -176,6 +217,9 @@ class User{
 		return array('length'=>mysqli_num_rows($result),'rows'=>$rows);
 		} 
 		$row = $result ->fetch_assoc();
+		if(mysqli_num_rows($result)==1){
+			return array('length'=>mysqli_num_rows($result),'rows'=>array(0=>$row));
+		}
 		return array('length'=>mysqli_num_rows($result),'rows'=>$row);
 	}
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2014 at 05:20 PM
+-- Generation Time: Jul 02, 2014 at 09:43 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -95,6 +95,26 @@ INSERT INTO `dept` (`deptId`, `name`) VALUES
 (3, ''),
 (9, ''),
 (10, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deptadmin`
+--
+
+CREATE TABLE IF NOT EXISTS `deptadmin` (
+  `userId` int(11) NOT NULL,
+  `deptId` int(11) NOT NULL,
+  KEY `userId` (`userId`,`deptId`),
+  KEY `deptId` (`deptId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `deptadmin`
+--
+
+INSERT INTO `deptadmin` (`userId`, `deptId`) VALUES
+(4, 1);
 
 -- --------------------------------------------------------
 
@@ -211,15 +231,21 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `fromId` (`fromId`,`toId`),
   KEY `toId` (`toId`),
   KEY `fromId_2` (`fromId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `message`
 --
 
 INSERT INTO `message` (`id`, `fromId`, `toId`, `timestamp`, `seen`, `content`) VALUES
-(1, 2, 1, '2014-06-16 09:41:26', '0000-00-00 00:00:00', 'THis is a Demo Message.'),
-(2, 2, 1, '2014-06-16 09:45:48', '0000-00-00 00:00:00', 'something');
+(1, 2, 1, '2014-06-16 09:41:26', '2014-07-03 00:39:15', 'THis is a Demo Message.'),
+(2, 2, 1, '2014-06-16 09:45:48', '2014-07-02 18:30:00', 'something'),
+(3, 1, 2, '2014-07-01 16:49:46', '2014-07-02 19:27:19', 'dgdfgd'),
+(4, 2, 1, '2014-07-01 18:18:12', '2014-07-02 18:30:00', 'dsfsdsdgfgjghkhjk'),
+(5, 1, 2, '2014-07-01 19:02:46', '2014-07-02 19:27:53', 'sdfsdf'),
+(6, 1, 2, '2014-07-01 19:38:14', '2014-07-02 19:28:02', 'sdfsdf'),
+(7, 1, 3, '2014-07-02 17:48:40', '0000-00-00 00:00:00', 'fhghfg'),
+(8, 2, 1, '2014-07-02 19:14:38', '2014-07-02 19:23:00', 'fghfghfgh');
 
 -- --------------------------------------------------------
 
@@ -318,13 +344,11 @@ INSERT INTO `proctornotification` (`id`, `proctorId`, `content`) VALUES
 CREATE TABLE IF NOT EXISTS `student` (
   `userId` int(5) NOT NULL,
   `usn` varchar(10) NOT NULL,
-  `name` varchar(50) NOT NULL,
   `classId` int(5) NOT NULL,
   `proctorId` int(5) NOT NULL,
   `cgpa` varchar(5) NOT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `usn` (`usn`),
-  KEY `name` (`name`),
   KEY `proctorId` (`proctorId`),
   KEY `classId` (`classId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -333,9 +357,9 @@ CREATE TABLE IF NOT EXISTS `student` (
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`userId`, `usn`, `name`, `classId`, `proctorId`, `cgpa`) VALUES
-(1, '1BMXXXXXXX', 'Demo Student', 1, 2, '9.20'),
-(3, '1BMXXXXXXY', 'Demo Student 2', 1, 2, '9.30');
+INSERT INTO `student` (`userId`, `usn`, `classId`, `proctorId`, `cgpa`) VALUES
+(1, '1BMXXXXXXX', 1, 2, '9.20'),
+(3, '1BMXXXXXXY', 1, 2, '9.30');
 
 -- --------------------------------------------------------
 
@@ -397,7 +421,6 @@ INSERT INTO `subject` (`subjectId`, `subjectName`, `subjectCode`, `sem`, `credit
 
 CREATE TABLE IF NOT EXISTS `teacher` (
   `userId` int(5) NOT NULL,
-  `name` varchar(50) NOT NULL,
   `deptId` int(11) NOT NULL,
   PRIMARY KEY (`userId`),
   KEY `deptId` (`deptId`)
@@ -407,8 +430,8 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 -- Dumping data for table `teacher`
 --
 
-INSERT INTO `teacher` (`userId`, `name`, `deptId`) VALUES
-(2, 'Demo Faculty', 1);
+INSERT INTO `teacher` (`userId`, `deptId`) VALUES
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -445,19 +468,22 @@ INSERT INTO `teachersubject` (`teacherid`, `subjectId`, `classId`, `totalClasses
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` int(5) NOT NULL AUTO_INCREMENT,
   `type` varchar(10) NOT NULL DEFAULT 's',
+  `name` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
+  `pic` varchar(500) NOT NULL DEFAULT 'http://i.imgur.com/YZF3uwA.png',
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userId`, `type`, `email`, `password`) VALUES
-(1, 's', 'student@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91'),
-(2, 't', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91'),
-(3, 's', 'student2@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91');
+INSERT INTO `user` (`userId`, `type`, `name`, `email`, `password`, `pic`) VALUES
+(1, 's', 'Demo Student', 'student@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
+(2, 't', 'Demo Faculty', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
+(3, 's', 'Demo Student 2', 'student2@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
+(4, 'da', 'Dept Admin 1', 'da@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png');
 
 --
 -- Constraints for dumped tables
@@ -475,6 +501,13 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `class`
   ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `deptadmin`
+--
+ALTER TABLE `deptadmin`
+  ADD CONSTRAINT `deptadmin_ibfk_2` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
+  ADD CONSTRAINT `deptadmin_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `deptevent`

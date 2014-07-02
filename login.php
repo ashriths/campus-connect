@@ -17,6 +17,11 @@
 				$session->createSession($result['userId'],'teacher');
 				//echo 'Session Create for Teacher';
 			}
+      else if($result['type']=='da'){
+        //login teacher
+        $session->createSession($result['userId'],'deptadmin');
+        //echo 'Session Create for Dept Admin';
+      }
       Redirect::redirectTo($rp.'home.php');
 		}
 	}

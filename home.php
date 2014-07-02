@@ -9,6 +9,9 @@
   if($_SESSION['type']=='teacher'){
     Redirect::redirectTo($rp.'faculty');
   }
+  else if($_SESSION['type']=='deptadmin'){
+    Redirect::redirectTo($rp.'admin');
+  }
   else{
     Redirect::redirectTo($rp.'student');
   }

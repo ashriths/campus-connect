@@ -52,9 +52,9 @@ class Design{
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
              <li '; if($active==0) echo 'class="active"'; echo '><a class="link" href="'.$rp.'student">Home</a></li>
-             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="marks.php">Marks</a></li>
-             <li '; if($active==2) echo 'class="active"'; echo '><a class="link" href="attendance.php">Attendance</a></li>
-             <li '; if($active==3) echo 'class="active"'; echo '><a class="link" href="proctor.php">Proctor</a></li>
+             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="'.$rp.'student/marks.php">Marks</a></li>
+             <li '; if($active==2) echo 'class="active"'; echo '><a class="link" href="'.$rp.'student/attendance.php">Attendance</a></li>
+             <li '; if($active==3) echo 'class="active"'; echo '><a class="link" href="'.$rp.'student/proctor.php">Proctor</a></li>
             <li class="'; if($active==4) echo 'active';  echo ' dropdown" >
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
               <ul class="dropdown-menu">

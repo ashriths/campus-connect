@@ -67,47 +67,98 @@ if(isset($_POST['reply'])){
     if(!isset($_GET['id']))
     {
       ?> 
-      <div class="container" >
-                    <div class="panel panel-default">
-                       <div class="panel-heading">
-                        <h3 class="panel-title">Inbox </h3>
-                       </div>
-                       <div class="panel-body">
-                        <div class="row">
-      <?php
-        $result = $user ->getEvents();
-        //print_r($result);
-        //echo 'hello';
-        if($result['total']>0){
-            foreach ($result['events'] as $key => $value) {
-            
-              echo ' 
-                <div class="col-sm-6 col-md-3">
-                                  <div class="thumbnail">
-                                    <img src="'.$value['imgurl'].'" alt="Event Image">
-                                    <div class="caption">
-                                      <h3>'.$value['name'].'</h3>';
-                                      if($value['type']!='open'){
-                                          if($value['type']=='dept'){
-                                            $r = $user->getTableDetailsbyId('deptevent','id',$value['id']);
-                                            $o = $user->getDeptNamefromId($r['deptId']);
-                                            echo '<p>Organised by Dept. Of CSE</p>';
-                                          }
-                                      }
-                                      echo '<p><a href="?id='.$value['id'].'" class="btn btn-primary" role="button">More Details</a> </p>
+        <div class="container">
+                <div class="row">
+                  <div class="col-md-4">
+                    
+                    <ul class="nav conversations nav-pills nav-stacked">
+                        <?php 
+                        $threads =$user->getThreads();
+                          //print_r($threads);
+                        for($i=0;$i<$threads['length'];$i++){
+                            $u2 = $user->getTableDetailsbyId('user','userId',$threads['rows'][$i]);
+                            //echo $u2;
+                            if($i>0)
+                            echo '<li>';
+                            else {echo '<li class="active">'; $one = $threads['rows'][$i];}
+                                    echo '<a href="#">
+                                      <span class="badge pull-right">';
+                                      if(($no = $user->getUnreadInConversation($threads['rows'][$i],$_SESSION['id']))>0) echo $no;
+                                        echo '</span>
+                                      '.$u2['name'].'
+                                    </a>
+                                  </li>';
+                        }
+                      ?>
+                        
+                      </ul>
+                 
+                  </div>
+                  <div class="col-md-8">
+                    <div class="old-messages">
+                      <ul class="media-list">
+                        <?php 
+                          $conv = $user->getConversation($_SESSION['id'],$one);
+                          //print_r($conv);
+                          $u2 = $user->getTableDetailsbyId('user','userId',$one);
+                          for($i=0;$i<$conv['length'];$i++){
+                            echo '
+                                    <div class="well well-sm">
+                                      
+                                        <li class="media">';
+                                        if($_SESSION['id']==$conv['rows'][$i]['fromId'])
+                                           echo '<a class="pull-left thumbnail profile-thumb" href="#"><img class="media-object" src="'.$u['pic'].'" alt="...">';
+                                         else
+                                           echo '<a class="pull-right thumbnail profile-thumb" href="#"><img class="media-object" src="'.$u2['pic'].'" alt="...">';
+                                        echo '</a>';
+                                        if($_SESSION['id']==$conv['rows'][$i]['fromId'])
+                                          echo '<div class="media-body">
+                                                <a href="'.$rp.'"<strong><h6 class="text-left media-heading">'.$u['name'].'
+                                                </h6></strong></a>
+                                                <h5 class="text-left">
+                                                  <p>'.$conv['rows'][$i]['content'].'</p>
+                                                 
+                                                </h5>
+                                                 <h6 class="text-left"><small>'.$conv['rows'][$i]['timestamp'].'</small></h6>'
+                                                
+                                                ;
+                                        else
+                                           echo '<div class="media-body">
+                                                <a href="'.$rp.'profile.php?id='.$u2['userId'].'"<strong><h6 class="text-right media-heading">'.$u2['name'].'
+                                                </h6> </strong></a>
+                                                <h5 class="text-right">
+                                                  <p>'.$conv['rows'][$i]['content'].'</p>
+                                                  
+                                                </h5>
+                                                 <h6 class="text-right"><small>'.$conv['rows'][$i]['timestamp'].'</small></h6>';
+                                            
+                                        echo '  </div>
+                                        </li>
+                                      
                                     </div>
-                                  </div>
-                                </div>
 
-                             ';
-
-
-            }
-        } ?>
-                         </div>
-                       </div>
+                                  ';
+                          }
+                        ?>
+                        
+                      </ul>
                     </div>
-        </div>
+                    <div class="reply-box">
+                      <div class="well">
+                        <form action="" method="post">
+                        <textarea name="content" class="form-control" rows="3" placeholder="Write here to reply..."></textarea>
+                        <hr>
+                        
+                        <div class="hidden-all">
+                          <input name="to" value="<?php echo $u2['userId']; ?>"/>
+                        </div>
+                          <button href="#" class="btn btn-primary active text-right" name="reply" type="submit" role="button">Reply</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+           </div>
     <?php
      }  
     else
@@ -123,6 +174,28 @@ if(isset($_POST['reply'])){
         <div class="container">
                 <div class="row">
                   <div class="col-md-4">
+                         <ul class="nav conversations nav-pills nav-stacked">
+                        <?php 
+                        $threads =$user->getThreads();
+                          //print_r($threads);
+                        for($i=0;$i<$threads['length'];$i++){
+                            $u3 = $user->getTableDetailsbyId('user','userId',$threads['rows'][$i]);
+                            //echo $u2;
+                            if($threads['rows'][$i]!=$u2['userId'])
+                              echo '<li>';
+                            else {echo '<li class="active">'; }
+                                    echo '<a href="#">
+                                      <span class="badge pull-right">';
+                                      if(($no = $user->getUnreadInConversation($threads['rows'][$i],$_SESSION['id']))>0) echo $no;
+                                        echo '</span>
+                                      '.$u3['name'].'
+                                    </a>
+                                  </li>';
+                        }
+                      ?>
+                        
+                      </ul>
+
                   </div>
                   <div class="col-md-8">
                     <div class="old-messages">
@@ -220,6 +293,7 @@ if(isset($_POST['reply'])){
               });
           }
           scrollToRecent();
+         
      </script>   
   </body>
 </html>
