@@ -11,8 +11,10 @@ if(!isset($_SESSION['id'])){
 if($_SESSION['type']=='student'){
 $u = $user->getTableDetailsbyId('student','userId',$_SESSION['id']);
 $class = $user->getTableDetailsbyId("class","classId",$u['classId']);
-}else{
+}else if($_SESSION['type']=='teacher'){
   $u = $user->getTableDetailsbyId('teacher','userId',$_SESSION['id']);
+}else{
+  $u = $user->getTableDetailsbyId('deptadmin','userId',$_SESSION['id']);
 }
 $u += $user->getTableDetailsbyId('user','userId',$_SESSION['id']);
 
@@ -49,8 +51,10 @@ if(isset($_POST['reply'])){
       $uMsg = $user->getUnreadMsgNumber();
     if($_SESSION['type']=='student'){
       $design->getStudentNavbar($rp,-1,$u['usn'], $uNotif,$uMsg);
-    }else{
+    }else if($_SESSION['type']=='teacher'){
       $design->getFacultyNavbar($rp,-1, $uNotif,$uMsg);
+    }else{
+      $design->getAdminNavbar($rp,-1, $uNotif,$uMsg);
     }
      
     ?>
@@ -76,6 +80,7 @@ if(isset($_POST['reply'])){
                         $threads =$user->getThreads();
                           //print_r($threads);
                         for($i=0;$i<$threads['length'];$i++){
+
                             $u2 = $user->getTableDetailsbyId('user','userId',$threads['rows'][$i]);
                             //echo $u2;
                             if($i>0)
@@ -89,6 +94,9 @@ if(isset($_POST['reply'])){
                                     </a>
                                   </li>';
                         }
+                         if($threads['length']==0){
+                            echo '<li> No conversation to display.</li>';
+                        }
                       ?>
                         
                       </ul>
@@ -98,9 +106,12 @@ if(isset($_POST['reply'])){
                     <div class="old-messages">
                       <ul class="media-list">
                         <?php 
+                        if(isset($one)){
                           $conv = $user->getConversation($_SESSION['id'],$one);
+
                           //print_r($conv);
                           $u2 = $user->getTableDetailsbyId('user','userId',$one);
+
                           for($i=0;$i<$conv['length'];$i++){
                             echo '
                                     <div class="well well-sm">
@@ -138,7 +149,8 @@ if(isset($_POST['reply'])){
                                     </div>
 
                                   ';
-                          }
+                          
+                        }
                         ?>
                         
                       </ul>
@@ -156,6 +168,9 @@ if(isset($_POST['reply'])){
                         </form>
                       </div>
                     </div>
+                    <?php 
+                            }
+                    ?>
                   </div>
                 </div>
            </div>
@@ -191,6 +206,9 @@ if(isset($_POST['reply'])){
                                       '.$u3['name'].'
                                     </a>
                                   </li>';
+                        }
+                        if($threads['length']==0){
+                            echo '<li> No conversation to display.</li>';
                         }
                       ?>
                         
@@ -293,6 +311,8 @@ if(isset($_POST['reply'])){
               });
           }
           scrollToRecent();
+          
+         
          
      </script>   
   </body>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2014 at 09:43 PM
+-- Generation Time: Jul 03, 2014 at 10:27 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -58,17 +58,23 @@ CREATE TABLE IF NOT EXISTS `class` (
   UNIQUE KEY `unq` (`sem`,`section`),
   UNIQUE KEY `sem` (`sem`,`deptId`,`section`),
   KEY `deptId` (`deptId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=93 ;
 
 --
 -- Dumping data for table `class`
 --
 
 INSERT INTO `class` (`classId`, `sem`, `deptId`, `section`) VALUES
+(86, 1, 1, ''),
 (68, 1, 1, 'A'),
 (75, 1, 1, 'B'),
+(88, 1, 1, 'C'),
+(89, 1, 1, 'D'),
+(91, 1, 1, 'E'),
+(92, 1, 1, 'F'),
 (85, 3, 1, 'A'),
 (59, 3, 1, 'B'),
+(90, 3, 1, 'C'),
 (7, 5, 1, 'A'),
 (1, 6, 1, 'A'),
 (2, 6, 1, 'B');
@@ -345,10 +351,10 @@ CREATE TABLE IF NOT EXISTS `student` (
   `userId` int(5) NOT NULL,
   `usn` varchar(10) NOT NULL,
   `classId` int(5) NOT NULL,
-  `proctorId` int(5) NOT NULL,
+  `proctorId` int(5) DEFAULT NULL,
   `cgpa` varchar(5) NOT NULL,
   PRIMARY KEY (`userId`),
-  UNIQUE KEY `usn` (`usn`),
+  UNIQUE KEY `userId` (`userId`),
   KEY `proctorId` (`proctorId`),
   KEY `classId` (`classId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -358,8 +364,16 @@ CREATE TABLE IF NOT EXISTS `student` (
 --
 
 INSERT INTO `student` (`userId`, `usn`, `classId`, `proctorId`, `cgpa`) VALUES
-(1, '1BMXXXXXXX', 1, 2, '9.20'),
-(3, '1BMXXXXXXY', 1, 2, '9.30');
+(1, '', 1, 2, '9.20'),
+(3, '', 1, 2, '9.30'),
+(10, '', 92, NULL, ''),
+(12, '', 92, NULL, ''),
+(13, '', 92, NULL, ''),
+(14, '', 92, NULL, ''),
+(15, '', 92, NULL, ''),
+(16, '', 92, NULL, ''),
+(17, '', 92, NULL, ''),
+(18, '', 92, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -473,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(200) NOT NULL,
   `pic` varchar(500) NOT NULL DEFAULT 'http://i.imgur.com/YZF3uwA.png',
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `user`
@@ -483,7 +497,15 @@ INSERT INTO `user` (`userId`, `type`, `name`, `email`, `password`, `pic`) VALUES
 (1, 's', 'Demo Student', 'student@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
 (2, 't', 'Demo Faculty', 'faculty@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
 (3, 's', 'Demo Student 2', 'student2@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
-(4, 'da', 'Dept Admin 1', 'da@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png');
+(4, 'da', 'Dept Admin 1', 'da@demo.com', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 'http://i.imgur.com/YZF3uwA.png'),
+(10, 's', 'Asad', 'asad@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(12, 's', 'Demo1', 'd1@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(13, 's', 'Demo2', 'd2@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(14, 's', 'Demo3', 'd3@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(15, 's', 'Demo4', 'd4@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(16, 's', 'Demo5', 'd5@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(17, 's', 'Demo6', 'd6@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png'),
+(18, 's', 'Demo7', 'd7@demo.com', '8cb2237d0679ca88db6464eac60da96345513964', 'http://i.imgur.com/YZF3uwA.png');
 
 --
 -- Constraints for dumped tables
@@ -506,8 +528,8 @@ ALTER TABLE `class`
 -- Constraints for table `deptadmin`
 --
 ALTER TABLE `deptadmin`
-  ADD CONSTRAINT `deptadmin_ibfk_2` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`),
-  ADD CONSTRAINT `deptadmin_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE;
+  ADD CONSTRAINT `deptadmin_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `deptadmin_ibfk_2` FOREIGN KEY (`deptId`) REFERENCES `dept` (`deptId`);
 
 --
 -- Constraints for table `deptevent`

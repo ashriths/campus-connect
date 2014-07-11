@@ -21,6 +21,7 @@ class Design{
     <link href="'.$rp.'css/mycss.css" rel="stylesheet">
     <style id="holderjs-style" type="text/css"></style>
     <script type="text/javascript" src="'.$rp.'js/pace.js" ></script>
+ 
     <!-- Optional theme -->
    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -37,7 +38,7 @@ class Design{
 
 	public function getStudentNavbar($rp,$active,$usn,$uNotif,$uMsg){
     echo ' <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -69,6 +70,25 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+                  
+                       <form action="'.$rp.'search.php" method="get" class="navbar-form navbar-left" role="search">
+                            <div class="input-group" style="display:inline-flex;">
+                              <div class="form-group">
+                              <input type="text" id="search-input" class="form-control" placeholder="Search">
+                              
+                              </div>
+                              <a href="#" class="search-drop" data-toggle="dropdown"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></a>
+                            </div>     
+                          
+                        </form>
+                
+                   
+                  <ul id="search-result" class="dropdown-menu">
+                      <li><img src="'.$rp.'img/spinner.gif"></li>
+                  </ul>
+             
+              </li>
             <li class="hidden-xs"><a class="link" href="'.$rp.'notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
             <li class="hidden-xs"><a class="link" href="'.$rp.'message.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
             <li class="visible-xs"><a class="link" href="'.$rp.'notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
@@ -96,7 +116,7 @@ class Design{
   public function getFacultyNavbar($rp,$active,$uNotif,$uMsg){
     
     echo ' <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -128,6 +148,106 @@ class Design{
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+                  
+                       <form action="'.$rp.'search.php" method="get" class="navbar-form navbar-left" role="search">
+                            <div class="input-group" style="display:inline-flex;">
+                              <div class="form-group">
+                              <input type="text" id="search-input" class="form-control" placeholder="Search">
+                              
+                              </div>
+                              <a href="#" class="search-drop" data-toggle="dropdown"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></a>
+                            </div>     
+                          
+                        </form>
+                
+                   
+                  <ul id="search-result" class="dropdown-menu">
+                     <li><img src="'.$rp.'img/spinner.gif"></li>
+                  </ul>
+             
+              </li>
+          <li class="hidden-xs"><a class="link" href="'.$rp.'notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="hidden-xs"><a class="link" href="'.$rp.'message.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
+            <li class="visible-xs"><a class="link" href="'.$rp.'message.php">Messages<span class="glyphicon glyphicon-comment pull-right"></span><span class="badge pull-right ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
+           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>&nbsp;<span class="glyphicon glyphicon-cog"></span>&nbsp;Account</a>
+              <ul class="dropdown-menu">
+                <li ><a class="link" href="'.$rp.'logout.php">&nbsp;Logout</a></li>
+                <li class="divider"></li>
+                <li><a class="link" href="#">Edit Profile</a></li>
+                <li><a class="link" href="#">Settings</a></li>
+                <li><a class="link" href="#">Privacy</a></li>
+                <li class="divider"></li>
+                <li><a class="link" href="#">Help</a></li>
+                <li><a class="link" href="#">Report a Problem</a></li>
+              </ul>
+            </li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>';
+    
+  }
+
+  public function getAdminNavbar($rp,$active,$uNotif,$uMsg){
+    
+    echo ' <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         <a href="'.$rp.'faculty"><img style="wigth:40pt; height:40pt; float:left"; atl="bmslogo" src="'.$rp.'/img/bms-logo.png"></a>
+          <a class="navbar-brand" href="'.$rp.'faculty">BMSCE</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+             <li '; if($active==0) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty">Home</a></li>
+             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="report.php">Report</a></li>
+
+            <li class="'; if($active==3) echo 'active';  echo ' dropdown" >
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a class="link" href="#">Notes</a></li>
+                <li><a class="link" href="#">Question Papers</a></li>
+                <li><a class="link" href="#">Syllabus Copy</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+            
+
+          </ul>
+          
+          <ul class="nav navbar-nav navbar-right">
+
+              <li class="dropdown">
+                  
+                       <form action="'.$rp.'search.php" method="get"  class="navbar-form navbar-left" role="search">
+                            <div class="input-group" style="display:inline-flex;">
+                              <div class="form-group">
+                              <input type="text" id="search-input" class="form-control" placeholder="Search">
+                              
+                              </div>
+                              <a href="#" class="search-drop" data-toggle="dropdown"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></a>
+                            </div>     
+                          
+                        </form>
+                
+                   
+                  <ul id="search-result" class="dropdown-menu">
+                    <li><img src="'.$rp.'img/spinner.gif"></li>
+                  </ul>
+             
+              </li>
           <li class="hidden-xs"><a class="link" href="'.$rp.'notification.php"><span class="glyphicon glyphicon-globe"></span><span class="badge ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
             <li class="hidden-xs"><a class="link" href="'.$rp.'message.php"><span class="glyphicon glyphicon-comment"></span><span class="badge ';if($uMsg>0) echo 'red'; echo '">'.$uMsg.'</span></a></li>
             <li class="visible-xs"><a class="link" href="'.$rp.'notification.php">Notifications<span class="glyphicon glyphicon-globe pull-right"></span><span class="badge pull-right ';if($uNotif>0) echo 'red'; echo'">'.$uNotif.'</span></a></li>
@@ -173,6 +293,40 @@ class Design{
       $(\'.loading\').fadeIn( "fast" ).delay(1000);
       window.location.href=this.href;
     });
+      //search bar 
+ var xhr = null;
+      $("#search-input").keyup(function(){
+
+        var  query = $(this).val(); 
+        if(query!=""){
+            $("#search-result").fadeIn("slow");
+            $("#search-result").html( "<img src=\"'.$rp.'img/spinner.gif\">");
+            if(xhr!=null)xhr=null;
+            var rpa = encodeURI("'.$rp.'");
+            xhr = $.ajax({
+                type: "get",
+                url: "'.$rp.'get_search_result.php",
+                data: { q: query ,rp : rpa },
+                cache: false
+              })
+                .done(function( html ) {
+                    $("#search-result").empty();
+                   $("#search-result").html( html );
+                });
+          }else{
+            $("#search-result").fadeOut("slow");
+          }
+      });
+
+      $("#search-input").blur(function(){
+          $("#search-result").fadeOut("slow");
+      });
+      $("#search-input").focus(function(){
+            var  query = $(this).val(); 
+            if(query!="")
+                $("#search-result").fadeIn("slow");
+            });
+          
   </script>
     ';
   }

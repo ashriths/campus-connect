@@ -6,7 +6,7 @@
 	//include_once $rp.'php/session.php';
 
 	if(isset($_SESSION['id']))
-		Redirect::redirectTo($rp."/home.php");
+		Redirect::redirectTo($rp."home.php");
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
