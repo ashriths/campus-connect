@@ -48,7 +48,7 @@ class Design{
             <span class="icon-bar"></span>
           </button>
          <a href="'.$rp.'student"><img style="wigth:40pt; height:40pt; float:left"; atl="bmslogo" src="'.$rp.'/img/bms-logo.png"></a>
-          <a class="navbar-brand" href="'.$rp.'student">'.$usn.'</a>
+          <a class="navbar-brand" href="'.$rp.'student">'.strtoupper($usn).'</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,9 +131,9 @@ class Design{
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
              <li '; if($active==0) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty">Home</a></li>
-             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="marks.php">Marks</a></li>
-             <li '; if($active==2) echo 'class="active"'; echo '><a class="link" href="attendance.php">Attendance</a></li>
-             <li '; if($active==3) echo 'class="active"'; echo '><a class="link" href="proctor.php">Proctor</a></li>
+             <li '; if($active==1) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty/marks.php">Marks</a></li>
+             <li '; if($active==2) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty/attendance.php">Attendance</a></li>
+             <li '; if($active==3) echo 'class="active"'; echo '><a class="link" href="'.$rp.'faculty/proctor.php">Proctor</a></li>
             <li class="'; if($active==4) echo 'active';  echo ' dropdown" >
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
               <ul class="dropdown-menu">

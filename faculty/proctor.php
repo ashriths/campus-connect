@@ -180,9 +180,13 @@ if(isset($_GET['remove'])){
                                 <div class="list-group">
                                   <?php
                                          $st =  $user->getStudentsUndermyProctorship();
+
                                          //print_r($st);
                                          for($i=0;$i<count($st);$i++){
-                                             echo '<a href="'.$rp.'profile.php?id='.$st[$i]['userId'].'" class="list-group-item">'.$st[$i]['usn'].' <b>'.$st[$i]['name'].'</b></a>';
+                                              $uid = $st[$i]['userId'];
+                                              $k = $user->getTableDetailsbyId('user','userId',$uid);
+                                              $k += $user->getTableDetailsbyId('student','userId',$uid);
+                                             echo '<a href="'.$rp.'profile.php?id='.$uid.'" class="list-group-item">'.($i+1).'.&nbsp;&nbsp;&nbsp;<b>'.strtoupper($k['name']).'</b>&nbsp;&nbsp;&nbsp;'.strtoupper($k['usn']).'</a>';
                                            }
                                          ?>
                                 </div>

@@ -58,17 +58,16 @@ $u=array_merge($u,$k);
                       <div class="panel-body">
                          <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                              <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-                              <li><a href="#classes" role="tab" data-toggle="tab">Classes</a></li>
+                              
+                              <li class="active"><a href="#classes" role="tab" data-toggle="tab">Classes</a></li>
                               <li><a href="#faculty" role="tab" data-toggle="tab">Faculty</a></li>
                               <li><a href="#proctor" role="tab" data-toggle="tab">Proctor</a></li>
                             </ul>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                              <div class="tab-pane fade in active" id="home">
-                              </div>
-                              <div class="tab-pane fade" id="classes">
+                            
+                              <div class="tab-pane fade in active" id="classes">
                                 <div class="panel panel-default">
                                   <div class="panel-body">
 

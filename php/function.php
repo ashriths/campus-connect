@@ -99,7 +99,7 @@ class User{
 		if($_SESSION['type']=='student'){
 			$student = $this->getTableDetailsbyId('student','userId',$uid);
 			$pid = $student['proctorId'];
-			$sql = "SELECT * FROM proctornotification WHERE proctorId = $pid";
+			$sql = "SELECT * FROM notification WHERE byId = $pid and type='proctor'";
 			$result = $db->query($sql);
 			if(!$result){	
 				die('Error:'.$db->error);
@@ -583,13 +583,7 @@ class User{
 			die('Error:'.$db->error);
 		}
 		$id = $db->insert_id;
-		$sql = "INSERT INTO notification (type, timestamp) VALUES ('proctor', NOW())";
-		$result = $db->query($sql);
-		if(!$result){
-			die('Error:'.$db->error);
-		}
-		$id2 =  $db->insert_id;
-		$sql = "INSERT INTO proctornotification (id, proctorId ,content) VALUES ($id2,$pid, 'Your proctor scheduled a proctor meeting on $datetime')";
+		$sql = "INSERT INTO notification (type, timestamp,link,byId,content) VALUES ('proctor', NOW(),'proctor.php',$pid,'Your proctor scheduled a proctor meeting on $datetime')";
 		$result = $db->query($sql);
 		if(!$result){
 			die('Error:'.$db->error);
@@ -816,6 +810,12 @@ class User{
 		$sql= "SELECT * from student WHERE classId=$classId";
 		$result = $this->getStructuredResult($sql);
 		return $result['length'];
+	}
+
+	public function getClassStudents($classId){
+		$sql= "SELECT * from student WHERE classId=$classId ORDER BY usn";
+		$result = $this->getStructuredResult($sql);
+		return $result;
 	}
 
 	public function getAllFacultyByDept($deptId){
@@ -1073,6 +1073,32 @@ class User{
  		}
  	
  		return $info;
+ 	}
+
+ 	public function addClassNotification($classId, $content){
+ 		$r= true;
+ 		$db= User::setupDatabase();
+		$db->autocommit(FALSE);
+		$content = $db->real_escape_string($content);
+		$uid = $_SESSION['id'];
+		$sql = "INSERT INTO notification (type,timestamp,content,byId) VALUES ('class',now(),'$content',$uid)";
+		$result = $db->query($sql);
+		if($result){
+			$id = $db->insert_id;
+			$sql = "INSERT INTO classnotification (id,classId) VALUES ($id,$classId)";
+			$result = $db->query($sql);
+			if(!$result){
+				$r=false;
+			}
+			$r = $id;
+		}else{
+			$r=false;
+		}
+		if(!$r){
+			$db->rollback();
+		}
+		$db->autocommit(TRUE);
+		return  $r;
  	}
 
  	
